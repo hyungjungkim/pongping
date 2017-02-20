@@ -13,7 +13,7 @@ public interface FileClient {
 	public List<Object> FileUpload(String userId, String localPath);
 	public boolean FileDownload(String userId, String localPath);
 	public List<Object> FileRemove(String userId, String currentPath);
-	public boolean changeName(String userId, String currentPath);
+	public boolean ChangeName(String userId, String currentPath, String newPath);
 	public List<Object> FileSearch(String userId, String searchName);
 	/*
 	 *  Directory Method

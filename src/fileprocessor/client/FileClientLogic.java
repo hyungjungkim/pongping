@@ -29,11 +29,6 @@ public class FileClientLogic implements FileClient {
 	}
 	
 	@Override
-	public boolean changeName(String userId, String currentPath){
-		return false;
-	}
-
-	@Override
 	public List<Object> DirectoryCreate(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
@@ -49,6 +44,12 @@ public class FileClientLogic implements FileClient {
 	public List<Object> ShowList(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean ChangeName(String userId, String currentPath, String newPath) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
