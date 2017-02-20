@@ -50,4 +50,10 @@ public class FileServerLogic implements FileSever {
 		return null;
 	}
 
+	@Override
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

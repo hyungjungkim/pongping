@@ -15,6 +15,7 @@ public interface FileSever {
 	public List<DirFile> FileUpload(Socket socket, FileInfo fileInfor);
 	public boolean FileDownload(Socket socket, FileInfo fileInfor);
 	public List<DirFile> FileRemove(String userId, String currentPath);
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath);
 	public List<DirFile> FileSearch(String userId, String searchName);
 	/*
 	 *  Directory Method
