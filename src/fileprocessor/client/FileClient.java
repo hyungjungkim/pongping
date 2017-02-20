@@ -1,5 +1,6 @@
 package fileprocessor.client;
 
+import java.io.IOException;
 import java.util.List;
 
 import db.domain.DirFile;
@@ -12,10 +13,10 @@ public interface FileClient {
 	 *  currentPath => 현재 갖고있는 경로
 	 *  File Method
 	 */
-	public List<DirFile> FileUpload(String userId, String localPath);
+	public List<DirFile> FileUpload(String userId, String localPath) throws IOException;
 	public boolean FileDownload(String userId, String localPath);
 	public List<DirFile> FileRemove(String userId, String currentPath);
-	public boolean ChangeName(String userId, String currentPath, String newPath);
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath);
 	public List<DirFile> FileSearch(String userId, String searchName);
 	/*
 	 *  Directory Method
