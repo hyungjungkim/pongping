@@ -1,2 +1,3 @@
 # pongping
-pongping
+
+[날짜_시간] 커밋 내용 상세하게 작성.
