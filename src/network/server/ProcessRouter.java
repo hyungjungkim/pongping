@@ -2,7 +2,7 @@ package network.server;
 
 import db.domain.ResponseInfo;
 
-public interface PorcessRouter {
+public interface ProcessRouter {
 	
 	public ServiceNum depacketizer();
 	public ResponseInfo packetizer();
