@@ -1,4 +1,4 @@
-package db;
+package db.domain;
 
 public class User {
 	/** user id : email*/

@@ -28,7 +28,11 @@ public class DirFile extends File{
 	public DirFile(String pathname) {
 		super(pathname);
 		// TODO Auto-generated constructor stub
+		System.out.println("DirFile Constructor");
+		System.out.println("File Path: " + pathname);
 		this.file = new File(pathname);
+		this.file.mkdirs();
+		//this.file.createNewFile();
 		this.path = pathname;
 		children = new ArrayList<>();
 	}
@@ -44,7 +48,7 @@ public class DirFile extends File{
 	 * */	
 	
 	/**
-	 * �쁽�옱 寃쎈줈�궡�뿉, �븯�쐞 �뤃�뜑 諛� �뙆�씪 ���옣 由ъ뒪�듃
+	 * 현재 경로내에, 하위 폴더 및 파일 저장 리스트
 	 * @param dirFile
 	 */
 	public void addChild(DirFile dirFile){
@@ -52,14 +56,14 @@ public class DirFile extends File{
 	}
 	
 	/**
-	 * �쁽�옱 寃쎈줈�궡�뿉 �븯�쐞 �뤃�뜑&�뙆�씪�뱾 由ы꽩 .
+	 * 현재 경로내에 하위 폴더&파일들 리턴 .
 	 */
 	public ArrayList<DirFile> getChildren(){
 		return this.children;
 	}
 
 	/**
-	 * �쁽�옱 寃쎈줈�궡�뿉,name怨� 媛숈� �븯�쐞 �뤃�뜑 �삉�뒗 �뙆�씪 由ы꽩 .
+	 * 현재 경로내에,name과 같은 하위 폴더 또는 파일 리턴 .
 	 * @param name
 	 */
 	public DirFile getChild(String name){
@@ -73,7 +77,7 @@ public class DirFile extends File{
 	}
 	
 	/**
-	 * �쁽�옱 寃쎈줈 諛섑솚 
+	 * 현재 경로 반환 
 	 * */
 	public String getPath(){
 		return this.file.getAbsolutePath();
