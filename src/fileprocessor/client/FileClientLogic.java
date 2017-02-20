@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
+import db.domain.DirFile;
+
 public class FileClientLogic implements FileClient {
 	//
 	private Socket sock;
@@ -18,7 +20,6 @@ public class FileClientLogic implements FileClient {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<DirFile> FileUpload(String userId, String localPath) throws IOException {
 		// TODO Auto-generated method stub
 		DataOutputStream dos = null;
@@ -43,13 +44,9 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e) {
 			e.getStackTrace();
 		}
-=======
-	public List<Object> FileUpload(String userId, String localPath) {
-		// TODO Auto-generated method stub
->>>>>>> e136e109014c30b6693426bf663d33ce4d4a032a
 		return null;
 	}
-
+	
 	@Override
 	public boolean FileDownload(String userId, String localPath) {
 		// TODO Auto-generated method stub
@@ -57,40 +54,40 @@ public class FileClientLogic implements FileClient {
 	}
 
 	@Override
-	public List<Object> FileRemove(String userId, String currentPath) {
+	public List<DirFile> FileRemove(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public List<Object> FileSearch(String userId, String searchName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean changeName(String userId, String currentPath){
-		return false;
-	}
-
-	@Override
-	public List<Object> DirectoryCreate(String userId, String currentPath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Object> DirectoryRemove(String userId, String currentPath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-<<<<<<< HEAD
 	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) {
-=======
-	public List<Object> ShowList(String userId, String currentPath) {
->>>>>>> e136e109014c30b6693426bf663d33ce4d4a032a
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<DirFile> FileSearch(String userId, String searchName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<DirFile> DirectoryCreate(String userId, String currentPath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DirFile> DirectoryRemove(String userId, String currentPath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	@Override
+	public List<DirFile> ShowList(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
 	}
