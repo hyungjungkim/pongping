@@ -25,7 +25,7 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 		// TODO Auto-generated method stub
 		this.userId=requestInfo.userId;
 		this.serviceNum=requestInfo.serviceNum;
-		//this.
+		this.fileInfo=requestInfo.fileInfo;
 	}
 
 	/***
