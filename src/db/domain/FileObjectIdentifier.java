@@ -1,4 +1,4 @@
-package db;
+package db.domain;
 
 public enum FileObjectIdentifier {
 	Folder(0), File(1);

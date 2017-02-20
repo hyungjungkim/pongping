@@ -1,15 +1,15 @@
-package db;
+package db.domain;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class TreeNode {
-	/**DirFile 의 root */
+	/**DirFile root */
 	private DirFile root;
 	/**Directory or File Path*/
 	private String path;	
-	/**DirFile 객체 */
+	
 	//	private DirFile dirFile;
 	/**TreeNode Child List*/
 	//private ArrayList<DirFile> children;
@@ -18,7 +18,7 @@ public class TreeNode {
 	
 	public TreeNode(){
 		//root= new DirFile("");
-		root = new DirFile("/Users/LeeSun-A/Documents/workspace/");
+		root = new DirFile("C:\\Users\\Administrator\\Documents\\pongping");
 		//root = new DirFile("C:\\");
 	//	this.children = new ArrayList<>();
 	}
@@ -30,14 +30,16 @@ public class TreeNode {
 	 public void add(String str)
 	 {
 		 DirFile current = root;
-		 StringTokenizer s = new StringTokenizer(str, "/");
+		 StringTokenizer s = new StringTokenizer(str, "\\");
 		 while(s.hasMoreElements())
 		 {
 			 str = (String)s.nextElement();
+			 System.out.println("str value: " + str);
 			 DirFile child = current.getChild(str);
 			 if(child==null)
 			 {
-				 current.addChild(new DirFile(root.getAbsolutePath()+"/"+current.getAbsolutePath()+"/"+str));		//str이 없으면, 추가  
+				 System.out.println("root: " + root.getAbsolutePath());
+				 current.addChild(new DirFile(current.getAbsolutePath() + "\\" + str));		
 				 child = current.getChild(str);
 				 //System.out.println(child.getName());
 			 }
@@ -73,9 +75,10 @@ public class TreeNode {
 	    public static void main(String[] args)
 	    {
 	        TreeNode t = new TreeNode();
-	        t.add("2017Project/FileServer/1/1_1");
-	        t.add("2017Project/FileServer/1/1_1/test2.txt");
-	        t.add("2017Project/FileServer/2/2_1/test2_2.rtf");
+	        //t.add("2017Project\\FileServer\\1\\1_1");
+	        //t.add("2017Project\\FileServer\\1\\1_1\\test2.txt");
+	        //t.add("2017Project\\FileServer\\2\\2_1\\test2_2.txt");
+	        t.add("2017Project\\Fileserver\\3\\test2_3.txt");
 	        
 	        t.print();
 	        //t.print(new Node());
