@@ -9,14 +9,14 @@ public interface FileClient {
 	//
 	/*
 	 *  userID => Default Variable
-	 *  localPath => File, Directory ¾÷·Îµå, ´Ù¿î, »ý¼ºÇÒ Local °æ·Î
-	 *  currentPath => ÇöÀç °®°íÀÖ´Â °æ·Î
+	 *  localPath => File, Directory ï¿½ï¿½ï¿½Îµï¿½, ï¿½Ù¿ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Local ï¿½ï¿½ï¿½
+	 *  currentPath => ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	 *  File Method
 	 */
 
 	public List<DirFile> FileUpload(String userId, String localPath) throws IOException;
-	public boolean FileDownload(String userId, String localPath);
-	public List<DirFile> FileRemove(String userId, String currentPath);
+	public boolean FileDownload(String userId, String localPath) throws IOException;
+	public List<DirFile> FileRemove(String userId, String currentPath) throws IOException;
 	public List<DirFile> ChangeName(String userId, String currentPath, String newPath);
 	public List<DirFile> FileSearch(String userId, String searchName);
 
