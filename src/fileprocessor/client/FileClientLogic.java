@@ -2,11 +2,14 @@ package fileprocessor.client;
 
 import java.util.List;
 
+import db.domain.DirFile;
+
 public class FileClientLogic implements FileClient {
 
 	@Override
-	public List<Object> FileUpload(String userId, String localPath) {
+	public List<DirFile> FileUpload(String userId, String localPath) {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -17,31 +20,31 @@ public class FileClientLogic implements FileClient {
 	}
 
 	@Override
-	public List<Object> FileRemove(String userId, String currentPath) {
+	public List<DirFile> FileRemove(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object> FileSearch(String userId, String searchName) {
+	public List<DirFile> FileSearch(String userId, String searchName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public List<Object> DirectoryCreate(String userId, String currentPath) {
+	public List<DirFile> DirectoryCreate(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object> DirectoryRemove(String userId, String currentPath) {
+	public List<DirFile> DirectoryRemove(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object> ShowList(String userId, String currentPath) {
+	public List<DirFile> ShowList(String userId, String currentPath) {
 		// TODO Auto-generated method stub
 		return null;
 	}
