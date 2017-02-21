@@ -12,7 +12,7 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	private FileInfo fileInfo;
 	private Socket sock;
 	
-	public ProcessRouterLogic (Socket sock){
+	public ProcessRouterLogic(Socket sock){
 		this.sock =sock;
 		
 	}
@@ -31,9 +31,10 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	/***
 	 * 
 	 */
-	@Override
-	public void runService(ServiceNum serviceNum) {
+	
+	public void run() {
 		// TODO Auto-generated method stub
+		super.run();
 		while(true){
 			
 			//RequestInfo requestInfo =(RequestInfo) read();
@@ -41,9 +42,9 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 			if(this.serviceNum == ServiceNum.UPLOAD);
 			//하면 upload함수 호출
 		}
+		
 	}
-	
-	
+
 	/***
 	 * FileInfo객체를 속성으로 갖고있는 ResponseInfo를 리턴함.
 	 * FileInfo에는 UserId와 FilePath갖고 있다.
