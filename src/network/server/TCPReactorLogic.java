@@ -26,8 +26,14 @@ public class TCPReactorLogic implements TCPReactor {
 		// TODO Auto-generated method stub
 		try{
 			
-			Socket sock = this.servSock.accept();
-			ProcessRouterLogic processRouterLogic = new ProcessRouterLogic(sock);
+			while(true){
+				
+				Socket sock = this.servSock.accept();
+				ProcessRouterLogic processRouterLogic = new ProcessRouterLogic(sock);
+				Thread t = new Thread(processRouterLogic);
+				t.start();
+				
+			}
 			
 		}catch(IOException e){
 			
