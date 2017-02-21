@@ -31,17 +31,12 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 		this.serviceNum=requestInfo.getServiceNum();
 		this.fileInfo=requestInfo.getFileInfo();
 	}
-
-	/***
-	 * 
-	 */
 	
 	public void run() {
 		// TODO Auto-generated method stub
 		super.run();
 		while(true){
-			
-			
+						
 			try {
 				FileInputStream fis = new FileInputStream("objectfile.ser");
 				ObjectInputStream in = new ObjectInputStream(fis);
