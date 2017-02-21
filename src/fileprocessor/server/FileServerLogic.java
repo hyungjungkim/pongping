@@ -154,7 +154,7 @@ public class FileServerLogic implements FileSever {
 		File file1 = new File(serverCurrentPath);
 	    File file2 = new File(serverNewPath);
 	    if (!file1.renameTo(file2)) {
-	      System.out.println("Error, ChangeName Method " + file1);
+	      System.out.println("Error, ChangeName Method is failed " + file1);
 	    }
 		out = new ObjectOutputStream(sock.getOutputStream());
 		// Serializable
