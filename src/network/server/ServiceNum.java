@@ -6,9 +6,11 @@ public enum ServiceNum {
 	DOWNLOAD("Download"),
 	MKDIR("MkDir"),
 	RMVDIR("RmvDir"),
+	RMFILE("RmvFile"),
 	CNGFILENAME("CngFileName"),
 	CNGDIRNAME("CngDirName"),
-	SEARCH("Search");
+	SEARCH("Search"),
+	SHOWLIST("ShowList");
 	
 	public String service;
 	
