@@ -1,5 +1,7 @@
 package db.domain;
 
+import java.io.Serializable;
+
 import network.server.ServiceNum;
 
 /**
@@ -14,7 +16,7 @@ import network.server.ServiceNum;
  * |____________________________________________________|
  *
  */
-public class RequestInfo {
+public class RequestInfo implements Serializable{
 	
 	private FileInfo fileInfo;
 	private String userId;
