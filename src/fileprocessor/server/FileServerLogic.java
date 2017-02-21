@@ -118,7 +118,7 @@ public class FileServerLogic implements FileSever {
 		File file = new File(dirCreatePath);
 		if(!file.exists()){
 			file.mkdirs();
-			System.out.println("디렉토리 명 = " + dirCreatePath); // dedug
+			System.out.println("Directory Name = " + dirCreatePath); // dedug
 		}
 		out = new ObjectOutputStream(sock.getOutputStream());
 		// Serializable
@@ -154,7 +154,7 @@ public class FileServerLogic implements FileSever {
 		File file1 = new File(serverCurrentPath);
 	    File file2 = new File(serverNewPath);
 	    if (!file1.renameTo(file2)) {
-	      System.out.println("이름 변경 에러 : " + file1);
+	      System.out.println("Error, ChangeName Method is failed " + file1);
 	    }
 		out = new ObjectOutputStream(sock.getOutputStream());
 		// Serializable
