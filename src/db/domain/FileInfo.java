@@ -13,6 +13,25 @@ package db.domain;
 
 public class FileInfo {
 	
+	private String filePath;
+	private String userId;
+	
+	public String getFilePath() {
+		return filePath;
+	}
+	
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	
+	public String getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 	
 	
 }
