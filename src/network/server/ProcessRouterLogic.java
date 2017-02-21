@@ -11,7 +11,7 @@ import db.domain.FileInfo;
 import db.domain.RequestInfo;
 import fileprocessor.server.FileServerLogic;
 
-public class ProcessRouterLogic extends Thread implements ProcessRouter {
+public class ProcessRouterLogic extends Thread implements ProcessRouter, Runnable {
 	
 	private String userId;
 	private ServiceNum serviceNum;
@@ -41,10 +41,8 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	
 	public void run() {
 		// TODO Auto-generated method stub
-		super.run();
 		while(true){
-			
-			
+
 			try {
 				FileInputStream fis = new FileInputStream("objectfile.ser");
 				ObjectInputStream in = new ObjectInputStream(fis);
