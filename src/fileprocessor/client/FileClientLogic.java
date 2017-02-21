@@ -20,7 +20,6 @@ public class FileClientLogic implements FileClient {
 
 	public FileClientLogic(Socket sock) {
 		// sock = tcpRl.getClient();
-
 		this.sock = sock;
 	}
 
