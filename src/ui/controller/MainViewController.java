@@ -75,11 +75,15 @@ public class MainViewController implements Initializable {
 	@FXML
 	private Alert alertDevInfo;
 
+	@FXML
+	private Alert alertChangeName;
+
 	private List<DirFile> dirFile = new ArrayList<DirFile>();
 	private String userId = "userId";
 	private String searchName = "serachName";
-	private String currentPath = "/a/b/c";
-
+	private String currentPath;
+	private static final String localPath = "C:\\";
+	
 	/**
 	 * 우측 하단 부분
 	 */
@@ -95,6 +99,7 @@ public class MainViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		alertDevInfo = new Alert(AlertType.INFORMATION);
+
 		// 초기 로그인 시 받는 리스트
 		dirFile = fileClient.ShowList(userId, "0");
 		currentPath = userId;
@@ -115,8 +120,6 @@ public class MainViewController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		
 
 	}
 
@@ -159,23 +162,41 @@ public class MainViewController implements Initializable {
 	// 폴더 생성 버튼 눌렀을때
 	public void handleCreateFolder(ActionEvent e) {
 		// Todo
-		TextInputDialog dialog = new TextInputDialog("walter");
-		dialog.setTitle("CreateFolderName");
-		dialog.setHeaderText("Set a forder Name");
-		dialog.setContentText("Please enter folder name:");
+		// TextInputDialog dialog = new TextInputDialog("walter");
+		// dialog.setTitle("CreateFolderName");
+		// dialog.setHeaderText("Set a forder Name");
+		// dialog.setContentText("Please enter folder name:");
+		//
+		// // Traditional way to get the response value.
+		// Optional<String> result = dialog.showAndWait();
+		// if (result.isPresent()) {
+		// System.out.println("Folder name: " + result.get());
+		// }
+		//
+		// // The Java 8 way to get the response value (with lambda expression).
+		// result.ifPresent(name -> System.out.println("Folder name: " + name));
 
-		// Traditional way to get the response value.
+		String entered = "none.";
+		TextInputDialog dialog = new TextInputDialog("hi");
+		dialog.setTitle("hi");
+		dialog.setHeaderText("Change Name");
+
 		Optional<String> result = dialog.showAndWait();
+
 		if (result.isPresent()) {
-			System.out.println("Folder name: " + result.get());
+
+			entered = result.get();
 		}
 
-		// The Java 8 way to get the response value (with lambda expression).
-		result.ifPresent(name -> System.out.println("Folder name: " + name));
+		// 중복 체크 후 이름 변경
+		if (IsExist(entered)) {
 
-		dirFile = fileClient.DirectoryCreate(userId, currentPath);
+			System.out.println("응 폴더 존재해");
+		} else {
+			dirFile = fileClient.DirectoryCreate(userId, currentPath);
 
-		DisplayList();
+			DisplayList();
+		}
 	}
 
 	/**
@@ -187,7 +208,8 @@ public class MainViewController implements Initializable {
 	public void handleFileUpload(ActionEvent e) {
 		//
 		try {
-			dirFile = fileClient.FileUpload(userId, "localPath");
+			//Todo
+			dirFile = fileClient.FileUpload(userId, localPath);
 		} catch (IOException d) {
 			d.printStackTrace();
 		}
@@ -199,7 +221,7 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @param e
 	 */
-	//완료
+	// 완료
 	public void handleFileDownload(ActionEvent e) {
 
 		boolean isFileDownload = false;
@@ -222,7 +244,7 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @param e
 	 */
-	
+
 	public void handleDelete(ActionEvent e) {
 		//
 		dirFile = fileClient.DirectoryRemove(userId, currentPath);
@@ -237,10 +259,29 @@ public class MainViewController implements Initializable {
 	 */
 
 	public void handleChangeName(ActionEvent e) {
-		//
-		dirFile = fileClient.ChangeName(userId, currentPath, "newPath");
 
-		DisplayList();
+		String entered = "none.";
+		TextInputDialog dialog = new TextInputDialog("hi");
+		dialog.setTitle("hi");
+		dialog.setHeaderText("Change Name");
+
+		Optional<String> result = dialog.showAndWait();
+
+		if (result.isPresent()) {
+
+			entered = result.get();
+		}
+
+		// 중복 체크 후 이름 변경
+		if (IsExist(entered)) {
+
+			System.out.println("응 파일 존재해");
+		} else {
+			String newPath = currentPath + "/" + entered;
+			dirFile = fileClient.ChangeName(userId, currentPath, newPath);
+			DisplayList();
+		}
+	
 	}
 
 	/**
@@ -261,8 +302,9 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @return
 	 */
-	public boolean IsExist() {
-		//
+	public boolean IsExist(String name) {
+		// 만약 폴더 혹은 파일 이름이랑 같으면
+		
 		return false;
 	}
 
@@ -274,6 +316,17 @@ public class MainViewController implements Initializable {
 
 		int lastIndex = currentPath.lastIndexOf("/");
 		String renewPath = currentPath.substring(0, lastIndex);
+
+		dirFile = fileClient.ShowList(userId, renewPath);
+		DisplayList();
+	}
+
+	/**
+	 * 하위 폴더 이동
+	 */
+	public void forward(String currentPath, String pathToGo) {
+
+		String renewPath = currentPath + "/" + pathToGo;
 
 		dirFile = fileClient.ShowList(userId, renewPath);
 		DisplayList();
