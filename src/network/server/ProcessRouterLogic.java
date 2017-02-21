@@ -4,9 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.List;
 
+import db.domain.DirFile;
 import db.domain.FileInfo;
 import db.domain.RequestInfo;
+import fileprocessor.server.FileServerLogic;
 
 public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	
@@ -31,12 +34,17 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 		this.serviceNum=requestInfo.getServiceNum();
 		this.fileInfo=requestInfo.getFileInfo();
 	}
+
+	/***
+	 * 
+	 */
 	
 	public void run() {
 		// TODO Auto-generated method stub
 		super.run();
 		while(true){
-						
+			
+			
 			try {
 				FileInputStream fis = new FileInputStream("objectfile.ser");
 				ObjectInputStream in = new ObjectInputStream(fis);
@@ -48,11 +56,33 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 				e.printStackTrace();
 			}
 		
+			FileServerLogic fileServerLogic=new FileServerLogic(sock);
+			if(this.serviceNum == ServiceNum.UPLOAD){
+				fileServerLogic.FileUpload(fileInfo);
+			}
+			else if(this.serviceNum.equals(ServiceNum.DOWNLOAD)){
+				fileServerLogic.FileDownload(fileInfo);
+			}
+			else if(this.serviceNum.equals(ServiceNum.MKDIR)){
+				fileServerLogic.DirectoryCreate(fileInfo);
+			}
+			else if(this.serviceNum.equals(ServiceNum.RMVDIR)){
+				fileServerLogic.DirectoryRemove(fileInfo);
+			}
+			else if(this.serviceNum.equals(ServiceNum.RMFILE)){
+				fileServerLogic.FileRemove(userId, fileInfo.getCurrentPath());
+			}
+			else if(this.serviceNum.equals(ServiceNum.CNGFILENAME)){
+				fileServerLogic.ChangeName(userId, fileInfo.getCurrentPath(), fileInfo.getNewPath());
+			}
+			else if(this.serviceNum.equals(ServiceNum.SEARCH)){
+				fileServerLogic.FileSearch(userId, fileInfo.getCurrentPath());
+				//when Searching you can use the information at CurrentPath as fileName.
+			}
+			else if(this.serviceNum.equals(ServiceNum.SHOWLIST)){
+				fileServerLogic.ShowList(userId,fileInfo.getCurrentPath());
+			}
 			
-			//RequestInfo requestInfo =(RequestInfo) read();
-			
-			if(this.serviceNum == ServiceNum.UPLOAD);
-			//하면 upload함수 호출
 		}
 		
 	}
