@@ -1,39 +1,35 @@
-import java.net.ServerSocket;
-import java.net.Socket;
+package network.server;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 import db.domain.HandleInfo;
-
 
 public class QueueManager {
 	
 	private static QueueManager instance;
 	
-	private Queue<HandleInfo> uploadQueue;
-	private Queue<HandleInfo> downloadQueue;
-	private Queue<HandleInfo> mkDirQueue;
-	private Queue<HandleInfo> rmvDirQueue;
-	private Queue<HandleInfo> rmvFileQueue;
-	private Queue<HandleInfo> cngFileNameQueue;
-	private Queue<HandleInfo> cngDirNameQueue;
-	private Queue<HandleInfo> searchQueue;
-	private Queue<HandleInfo> showlistQueue;
+	private HandleInfoQueue uploadQueue;
+	private HandleInfoQueue downloadQueue;
+	private HandleInfoQueue mkDirQueue;
+	private HandleInfoQueue rmvDirQueue;
+	private HandleInfoQueue rmvFileQueue;
+	private HandleInfoQueue cngFileNameQueue;
+	private HandleInfoQueue cngDirNameQueue;
+	private HandleInfoQueue searchQueue;
+	private HandleInfoQueue showlistQueue;
 	
 	private QueueManager() {
 		
-		Queue<HandleInfo> uploadQueue = new LinkedList<>();
-		Queue<HandleInfo> downloadQueue = new LinkedList<>();
-		Queue<HandleInfo> mkDirQueue = new LinkedList<>();
-		Queue<HandleInfo> rmvDirQueue = new LinkedList<>();
-		Queue<HandleInfo> rmvFileQueue = new LinkedList<>();
-		Queue<HandleInfo> cngFileNameQueue = new LinkedList<>();
-		Queue<HandleInfo> cngDirNameQueue = new LinkedList<>();
-		Queue<HandleInfo> searchQueue = new LinkedList<>();
-		Queue<HandleInfo> showlistQueue = new LinkedList<>();
-
+		this.uploadQueue = new HandleInfoQueue();
+		this.downloadQueue = new HandleInfoQueue();
+		this.mkDirQueue = new HandleInfoQueue();
+		this.rmvDirQueue = new HandleInfoQueue();
+		this.rmvFileQueue = new HandleInfoQueue();
+		this.cngFileNameQueue = new HandleInfoQueue();
+		this.cngDirNameQueue = new HandleInfoQueue();
+		this.searchQueue = new HandleInfoQueue();
+		this.showlistQueue = new HandleInfoQueue();
+	
 	}
 	
 	public static QueueManager getInstance(){
@@ -44,78 +40,77 @@ public class QueueManager {
 		return instance;
 		
 	}
-
-	public Queue<HandleInfo> getUploadQueue() {
+	
+	public HandleInfoQueue getUploadQueue() {
 		return uploadQueue;
 	}
 
-	public Queue<HandleInfo> getDownloadQueue() {
+	public HandleInfoQueue getDownloadQueue() {
 		return downloadQueue;
 	}
 
-	public Queue<HandleInfo> getMkDirQueue() {
+	public HandleInfoQueue getMkDirQueue() {
 		return mkDirQueue;
 	}
 
-	public Queue<HandleInfo> getRmvDirQueue() {
+	public HandleInfoQueue getRmvDirQueue() {
 		return rmvDirQueue;
 	}
 
-	public Queue<HandleInfo> getRmvFileQueue() {
+	public HandleInfoQueue getRmvFileQueue() {
 		return rmvFileQueue;
 	}
 
-	public Queue<HandleInfo> getCngFileNameQueue() {
+	public HandleInfoQueue getCngFileNameQueue() {
 		return cngFileNameQueue;
 	}
 
-	public Queue<HandleInfo> getCngDirNameQueue() {
+	public HandleInfoQueue getCngDirNameQueue() {
 		return cngDirNameQueue;
 	}
 
-	public Queue<HandleInfo> getSearchQueue() {
+	public HandleInfoQueue getSearchQueue() {
 		return searchQueue;
 	}
 
-	public Queue<HandleInfo> getShowlistQueue() {
+	public HandleInfoQueue getShowlistQueue() {
 		return showlistQueue;
 	}
 
-	public void setUploadQueue(Queue<HandleInfo> uploadQueue) {
+	public void setUploadQueue(HandleInfoQueue uploadQueue) {
 		this.uploadQueue = uploadQueue;
 	}
 
-	public void setDownloadQueue(Queue<HandleInfo> downloadQueue) {
+	public void setDownloadQueue(HandleInfoQueue downloadQueue) {
 		this.downloadQueue = downloadQueue;
 	}
 
-	public void setMkDirQueue(Queue<HandleInfo> mkDirQueue) {
+	public void setMkDirQueue(HandleInfoQueue mkDirQueue) {
 		this.mkDirQueue = mkDirQueue;
 	}
 
-	public void setRmvDirQueue(Queue<HandleInfo> rmvDirQueue) {
+	public void setRmvDirQueue(HandleInfoQueue rmvDirQueue) {
 		this.rmvDirQueue = rmvDirQueue;
 	}
 
-	public void setRmvFileQueue(Queue<HandleInfo> rmvFileQueue) {
+	public void setRmvFileQueue(HandleInfoQueue rmvFileQueue) {
 		this.rmvFileQueue = rmvFileQueue;
 	}
 
-	public void setCngFileNameQueue(Queue<HandleInfo> cngFileNameQueue) {
+	public void setCngFileNameQueue(HandleInfoQueue cngFileNameQueue) {
 		this.cngFileNameQueue = cngFileNameQueue;
 	}
 
-	public void setCngDirNameQueue(Queue<HandleInfo> cngDirNameQueue) {
+	public void setCngDirNameQueue(HandleInfoQueue cngDirNameQueue) {
 		this.cngDirNameQueue = cngDirNameQueue;
 	}
 
-	public void setSearchQueue(Queue<HandleInfo> searchQueue) {
+	public void setSearchQueue(HandleInfoQueue searchQueue) {
 		this.searchQueue = searchQueue;
 	}
 
-	public void setShowlistQueue(Queue<HandleInfo> showlistQueue) {
+	public void setShowlistQueue(HandleInfoQueue showlistQueue) {
 		this.showlistQueue = showlistQueue;
 	}
 
-	
 }
