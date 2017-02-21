@@ -8,6 +8,7 @@ import java.util.List;
 
 import db.domain.DirFile;
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.domain.RequestInfo;
 import fileprocessor.server.FileServerLogic;
 
@@ -44,43 +45,55 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 		super.run();
 		while(true){
 			
-			
+			HandleInfo handleInfo = null;
 			try {
 				FileInputStream fis = new FileInputStream("objectfile.ser");
 				ObjectInputStream in = new ObjectInputStream(fis);
 				RequestInfo requestInfo = (RequestInfo)in.readObject();
 				this.depacketizer(requestInfo);
+				handleInfo = new HandleInfo(sock, fileInfo);
 				in.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
-			FileServerLogic fileServerLogic=new FileServerLogic(sock);
+			//FileServerLogic fileServerLogic=new FileServerLogic(sock);
+			
+			QueueManager queuemanager = QueueManager.getInstance();
+			
 			if(this.serviceNum == ServiceNum.UPLOAD){
-				fileServerLogic.FileUpload(fileInfo);
+				//fileServerLogic.FileUpload(fileInfo);
+				queuemanager.getCngDirNameQueue().add(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.DOWNLOAD)){
-				fileServerLogic.FileDownload(fileInfo);
+				//fileServerLogic.FileDownload(fileInfo);
+				queuemanager.getDownloadQueue().add(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.MKDIR)){
-				fileServerLogic.DirectoryCreate(fileInfo);
+				//fileServerLogic.DirectoryCreate(fileInfo);
+				queuemanager.getMkDirQueue().add(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.RMVDIR)){
-				fileServerLogic.DirectoryRemove(fileInfo);
+				//fileServerLogic.DirectoryRemove(fileInfo);
+				queuemanager.getRmvDirQueue().add(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.RMFILE)){
-				fileServerLogic.FileRemove(userId, fileInfo.getCurrentPath());
+				//fileServerLogic.FileRemove(userId, fileInfo.getCurrentPath());
+				queuemanager.getRmvFileQueue().add(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.CNGFILENAME)){
-				fileServerLogic.ChangeName(userId, fileInfo.getCurrentPath(), fileInfo.getNewPath());
+				//fileServerLogic.ChangeName(userId, fileInfo.getCurrentPath(), fileInfo.getNewPath());
+				queuemanager.getCngFileNameQueue().add(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.SEARCH)){
-				fileServerLogic.FileSearch(userId, fileInfo.getCurrentPath());
+				//fileServerLogic.FileSearch(userId, fileInfo.getCurrentPath());
+				queuemanager.getSearchQueue().add(handleInfo);
 				//when Searching you can use the information at CurrentPath as fileName.
 			}
 			else if(this.serviceNum.equals(ServiceNum.SHOWLIST)){
-				fileServerLogic.ShowList(userId,fileInfo.getCurrentPath());
+				//fileServerLogic.ShowList(userId,fileInfo.getCurrentPath());
+				queuemanager.getShowlistQueue().add(handleInfo);
 			}
 			
 		}
