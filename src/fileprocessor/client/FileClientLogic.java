@@ -120,6 +120,7 @@ public class FileClientLogic implements FileClient {
 		return retList.getListInfor();
 	}
 
+	//ChangeName
 	@Override
 	public List<DirFile> ChangeName(String userId, String currentPath, String newPath)
 			throws IOException, ClassNotFoundException {
@@ -145,7 +146,7 @@ public class FileClientLogic implements FileClient {
 
 		return retList.getListInfor();
 	}
-
+	//FileSearch
 	@Override
 	public List<DirFile> FileSearch(String userId, String searchName) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
@@ -163,6 +164,7 @@ public class FileClientLogic implements FileClient {
 		return retList.getListInfor();
 	}
 
+	//DirectoryCreate
 	@Override
 	public List<DirFile> DirectoryCreate(String userId, String currentPath) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
@@ -180,6 +182,7 @@ public class FileClientLogic implements FileClient {
 		return retList.getListInfor();
 	}
 
+	//DirectoryRemove
 	@Override
 	public List<DirFile> DirectoryRemove(String userId, String currentPath) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
@@ -196,6 +199,7 @@ public class FileClientLogic implements FileClient {
 		return retList.getListInfor();
 	}
 
+	//ShowList 
 	@Override
 	public List<DirFile> ShowList(String userId, String currentPath) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
