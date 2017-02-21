@@ -37,12 +37,12 @@ public class FileClientLogic implements FileClient {
 
 	// FileUpload Method using OutputStream to Server
 	@Override
-	public List<DirFile> FileUpload(String userId, String localPath) throws IOException, ClassNotFoundException {
+	public List<DirFile> FileUpload(String userId, String localPath, String serverPath) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 
 		// init RequestInfo Object
 		// ObjectOutputStream, Object Serializable
-		rqInfo = new RequestInfo(new FileInfo(userId, localPath, ""), userId, ServiceNum.UPLOAD);
+		rqInfo = new RequestInfo(new FileInfo(userId, serverPath, ""), userId, ServiceNum.UPLOAD);
 		out = new ObjectOutputStream(sock.getOutputStream());
 		ois = new ObjectInputStream(sock.getInputStream());
 		dos = new DataOutputStream(sock.getOutputStream());
