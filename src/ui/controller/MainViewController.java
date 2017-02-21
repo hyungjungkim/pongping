@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 import db.domain.DirFile;
 import fileprocessor.client.FileClient;
@@ -28,6 +29,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import network.server.TCPReactor;
 
 /**
  * MainView 이벤트핸들러
@@ -73,7 +75,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private Alert alertDevInfo;
 
-	private List<DirFile> dirFile;
+	private List<DirFile> dirFile = new ArrayList<DirFile>();
 	private String userId = "userId";
 	private String searchName = "serachName";
 	private String currentPath = "/a/b/c";
@@ -91,11 +93,12 @@ public class MainViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//
 
-		//초기 로그인 시 받는 리스트
-		dirFile = fileClient.ShowList(userId,"0");
-
+		alertDevInfo = new Alert(AlertType.INFORMATION);
+		// 초기 로그인 시 받는 리스트
+		dirFile = fileClient.ShowList(userId, "0");
+		currentPath = userId;
+		DisplayList();
 	}
 
 	/**
@@ -104,14 +107,17 @@ public class MainViewController implements Initializable {
 
 	public MainViewController() {
 		//
-		// socket()에 IP 주소 넣기
-		Socket soc = new Socket();
-		fileClient = new FileClientLogic(soc);
+		// 소켓 생성 후 socket()에 IP 주소 넣기
+		try {
+			TCPReactor tcpReactor = new TCPReactor("123.456.789.0", 9999);
+			Socket soc = tcpReactor.getClient();
+			fileClient = new FileClientLogic(soc);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		alertDevInfo = new Alert(AlertType.INFORMATION);
+		
 
-		// To-do
-		dirFile = new ArrayList<DirFile>();
 	}
 
 	/**
@@ -124,11 +130,15 @@ public class MainViewController implements Initializable {
 		// 화면 이동
 	}
 
-	// 개발자 정보 버튼 눌렀을때
+	/**
+	 * Dev Info
+	 * 
+	 * @param e
+	 */
 	public void btnDevInfo(ActionEvent e) {
 		//
 		// alert
-		alertDevInfo.setContentText("asdasdasd");
+		alertDevInfo.setContentText("SKCC 4조");
 		alertDevInfo.show();
 	}
 
@@ -136,11 +146,13 @@ public class MainViewController implements Initializable {
 	 * 우측 상단 부분
 	 */
 
-	// 검색 버튼 눌렀을때
+	/**
+	 * 파일/폴더 검색
+	 * 
+	 * @param e
+	 */
 	public void handleSearch(ActionEvent e) {
-		// Todo
 		dirFile = fileClient.FileSearch(userId, searchName);
-
 		DisplayList();
 	}
 
@@ -166,7 +178,12 @@ public class MainViewController implements Initializable {
 		DisplayList();
 	}
 
-	// 파일 업로드 버튼 눌렀을때
+	/**
+	 * 파일 업로드
+	 * 
+	 * @param e
+	 */
+
 	public void handleFileUpload(ActionEvent e) {
 		//
 		try {
@@ -174,11 +191,17 @@ public class MainViewController implements Initializable {
 		} catch (IOException d) {
 			d.printStackTrace();
 		}
+		DisplayList();
 	}
 
-	// 파일 다운로드 버튼 눌렀을때
+	/**
+	 * 파일 다운로드
+	 * 
+	 * @param e
+	 */
+	//완료
 	public void handleFileDownload(ActionEvent e) {
-		//
+
 		boolean isFileDownload = false;
 		try {
 			isFileDownload = fileClient.FileDownload(userId, "localPath");
@@ -187,13 +210,19 @@ public class MainViewController implements Initializable {
 		}
 		// 파일 다운이 가능하면
 		if (isFileDownload) {
+
 			System.out.println("파일 다운로드 완료");
 		} else {
 			System.out.println("파일 다운로드 실패");
 		}
 	}
 
-	// 삭제 버튼 눌렀을때
+	/**
+	 * 파일/폴더 삭제
+	 * 
+	 * @param e
+	 */
+	
 	public void handleDelete(ActionEvent e) {
 		//
 		dirFile = fileClient.DirectoryRemove(userId, currentPath);
@@ -201,11 +230,16 @@ public class MainViewController implements Initializable {
 		DisplayList();
 	}
 
-	// 이름 변경 버튼 눌렀을때
+	/**
+	 * 파일/폴더 이름 변경
+	 * 
+	 * @param e
+	 */
+
 	public void handleChangeName(ActionEvent e) {
 		//
 		dirFile = fileClient.ChangeName(userId, currentPath, "newPath");
-		
+
 		DisplayList();
 	}
 
@@ -213,22 +247,35 @@ public class MainViewController implements Initializable {
 	 * 내부 메소드
 	 */
 
+	/**
+	 * UI 갱신
+	 */
 	// 현재 경로 폴더/파일 보여주기
 	public void DisplayList() {
 		//
 
 	}
 
-	// 중복인지 검사
+	/**
+	 * 중복 검사
+	 * 
+	 * @return
+	 */
 	public boolean IsExist() {
 		//
 		return false;
 	}
 
-	// 상위 폴더로 이동
-	public boolean Back() {
-		//
-		return false;
-	}
+	/**
+	 * 상위 폴더 이동
+	 */
+	// 완료
+	public void Back() {
 
+		int lastIndex = currentPath.lastIndexOf("/");
+		String renewPath = currentPath.substring(0, lastIndex);
+
+		dirFile = fileClient.ShowList(userId, renewPath);
+		DisplayList();
+	}
 }

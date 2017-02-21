@@ -5,21 +5,28 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
 import db.domain.DirFile;
+import db.domain.FileInfo;
+import db.domain.ListInfor;
 import db.domain.RequestInfo;
 import network.server.ServiceNum;
 
 public class FileClientLogic implements FileClient {
 	//
+	// Need Default Path
+	
 	private Socket sock;
 	DataOutputStream dos = null;
 	DataInputStream dis = null;
 	FileInputStream fis = null;
 	FileOutputStream fos = null;
-	
+	ObjectInputStream ois = null;
+	ObjectOutputStream out = null;
 	//
 	RequestInfo rqInfo = null;
 
@@ -30,19 +37,24 @@ public class FileClientLogic implements FileClient {
 
 	// FileUpload Method using OutputStream to Server
 	@Override
-	public List<DirFile> FileUpload(String userId, String localPath) throws IOException {
+	public List<DirFile> FileUpload(String userId, String localPath) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 
-		
-		
+		// init RequestInfo Object
+		// ObjectOutputStream, Object Serializable
+		rqInfo = new RequestInfo(new FileInfo(userId, localPath, ""), userId, ServiceNum.UPLOAD);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
+		dos = new DataOutputStream(sock.getOutputStream());
+		fis = new FileInputStream(localPath);
 		// need localPath parsing for file name
-		String fileName = localPath.substring(localPath.lastIndexOf("/"), localPath.length());
-		
+		// String fileName = localPath.substring(localPath.lastIndexOf("/"),
+		// localPath.length());
+
 		byte[] contentBytes = new byte[1024];
 
 		try {
-			dos = new DataOutputStream(sock.getOutputStream());
-			fis = new FileInputStream(fileName);
+			out.writeObject(rqInfo);
 			while (true) {
 				int count = fis.read(contentBytes);
 
@@ -56,16 +68,19 @@ public class FileClientLogic implements FileClient {
 			e.getStackTrace();
 		}
 		// TODO
-		return null;
+		// DeSerializable
+		ListInfor retList = (ListInfor) ois.readObject();
+		return retList.getListInfor();
 	}
 
 	// FileDownload Method using InputStream from Server
 	@Override
 	public boolean FileDownload(String userId, String localPath) throws IOException {
 		// TODO Auto-generated method stub
-
+		rqInfo = new RequestInfo(new FileInfo(userId, localPath, ""), userId, ServiceNum.DOWNLOAD);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		out.writeObject(rqInfo);
 		byte[] contentBytes = new byte[1024];
-
 		try {
 			dis = new DataInputStream(sock.getInputStream());
 			fos = new FileOutputStream(localPath);
@@ -79,54 +94,124 @@ public class FileClientLogic implements FileClient {
 				fos.write(contentBytes, 0, count);
 			}
 		} catch (IOException e) {
+
 			e.getStackTrace();
 		}
-		return false;
+		return true;
 	}
 
 	// FileRemove Method
 	@Override
-	public List<DirFile> FileRemove(String userId, String currentPath) throws IOException {
+	public List<DirFile> FileRemove(String userId, String currentPath) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
+		ListInfor retList = null;
+		rqInfo = new RequestInfo(new FileInfo(userId, currentPath,""), userId, ServiceNum.RMFILE);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
 		try {
-			dos = new DataOutputStream(sock.getOutputStream());
-			dos.writeUTF(currentPath);
+			out.writeObject(rqInfo);
+			retList = (ListInfor) ois.readObject();
 		} catch (IOException e) {
 			e.getStackTrace();
 		}
-		return null;
+
+
+
+		return retList.getListInfor();
 	}
 
 	@Override
-	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) {
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath)
+			throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<DirFile> FileSearch(String userId, String searchName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<DirFile> DirectoryCreate(String userId, String currentPath) {
-		// TODO Auto-generated method stub
+		// need parsing
+		ListInfor retList = null;
+		// parsing path , need to separate File/Directory
+		String fileName = newPath.substring(newPath.lastIndexOf("/"),newPath.length());
+		if(fileName.lastIndexOf(".") == -1)
+			rqInfo = new RequestInfo(new FileInfo(userId, currentPath, newPath), userId, ServiceNum.CNGDIRNAME);
+		else
+			rqInfo = new RequestInfo(new FileInfo(userId, currentPath, newPath), userId, ServiceNum.CNGFILENAME);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
 		
-		return null;
+		try {
+			out.writeObject(rqInfo);
+			retList = (ListInfor) ois.readObject();
+		} catch (IOException e) {
+			e.getStackTrace();
+		}
+		
+
+		return retList.getListInfor();
 	}
 
 	@Override
-	public List<DirFile> DirectoryRemove(String userId, String currentPath) {
+	public List<DirFile> FileSearch(String userId, String searchName) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		// path + fileName;
+		ListInfor retList = null;
+		rqInfo = new RequestInfo(new FileInfo(userId, searchName, ""), userId, ServiceNum.SEARCH);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
+		try {
+			out.writeObject(rqInfo);
+			retList = (ListInfor) ois.readObject();
+		} catch (IOException e) {
+			e.getStackTrace();
+		}
+		return retList.getListInfor();
 	}
 
 	@Override
-	public List<DirFile> ShowList(String userId, String currentPath) {
+	public List<DirFile> DirectoryCreate(String userId, String currentPath) throws IOException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		ListInfor retList = null;
+		rqInfo = new RequestInfo(new FileInfo(userId, currentPath, ""), userId, ServiceNum.MKDIR);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
+		try{
+			out.writeObject(rqInfo);
+			retList = (ListInfor)ois.readObject();
+		}catch(IOException e){
+			e.getStackTrace();
+		}
+		
+		return retList.getListInfor();
+	}
+
+	@Override
+	public List<DirFile> DirectoryRemove(String userId, String currentPath) throws IOException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		ListInfor retList = null;
+		rqInfo = new RequestInfo(new FileInfo(userId, currentPath, ""), userId, ServiceNum.RMVDIR);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
+		try{
+			out.writeObject(rqInfo);
+			retList = (ListInfor)ois.readObject();
+		}catch(IOException e){
+			e.getStackTrace();
+		}
+		return retList.getListInfor();
+	}
+
+	@Override
+	public List<DirFile> ShowList(String userId, String currentPath) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		// first page & back page function
-		return null;
+		ListInfor retList = null;
+		rqInfo = new RequestInfo(new FileInfo(userId, currentPath, ""), userId, ServiceNum.SHOWLIST);
+		out = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
+		try{
+			out.writeObject(rqInfo);
+			retList = (ListInfor)ois.readObject();
+		}catch(IOException e){
+			e.getStackTrace();
+		}
+		
+		return retList.getListInfor();
 	}
 
 }

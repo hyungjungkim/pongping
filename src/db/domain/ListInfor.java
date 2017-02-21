@@ -14,16 +14,16 @@ public class ListInfor implements Serializable{
 	//Version
 	private static final long serialVersionUID = 132111111015102313L;
 	
-	private List<File> listInfor;
+	private List<DirFile> listInfor;
 	
 	//Constructor
 	public ListInfor(){
 		//
 	}
-	public List<File> getListInfor() {
+	public List<DirFile> getListInfor() {
 		return listInfor;
 	}
-	public void setListInfor(List<File> listInfor) {
+	public void setListInfor(List<DirFile> listInfor) {
 		this.listInfor = listInfor;
 	}
 	

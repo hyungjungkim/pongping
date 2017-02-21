@@ -1,93 +1,92 @@
 package db.domain;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.util.Date;
 
-public class DirFile extends File{
+public class DirFile {
+	/** file or folder index*/
+	private int index;
+	/** file or folder name*/
+	private String fileName;
+	/** User Id*/
+	private String userId;
+	/** upper direcotry's index root=0 else >0*/
+	private int parentDirIdx;
+	/** Last Modified Date*/
+	private Date modifiedDate;
+	/** folder = 0 , file =1*/
+	private FileObjectIdentifier flag;
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**	user ID */
-	private String Id;		
-	/**file Path*/
-	private String path;
-	/**flag 0=folder, 1=file*/
-	private FileObjectIdentifier foi;
-	/** file */
-	private File file;
-	/** DirFile List*/
-	private ArrayList<DirFile> children;
-	
-	/**
-	 *Constructor : File class Extension.
-	 *Create new File.
-	 * @param pathname
-	 */
-	public DirFile(String pathname) {
-		super(pathname);
-		// TODO Auto-generated constructor stub
-		System.out.println("DirFile Constructor");
-		System.out.println("File Path: " + pathname);
-		this.file = new File(pathname);
-		this.file.mkdirs();
-		//this.file.createNewFile();
-		this.path = pathname;
-		children = new ArrayList<>();
-	}
-	
-	public String getName(){
-		return this.file.getName();
-	}
+	public DirFile(){
 		
-	/**
-	 * To do
-	 * file renameTo(File file)
-	 * param: file, name
-	 * */	
-	
-	/**
-	 * 현재 경로내에, 하위 폴더 및 파일 저장 리스트
-	 * @param dirFile
-	 */
-	public void addChild(DirFile dirFile){
-		this.children.add(dirFile);
 	}
 	
-	/**
-	 * 현재 경로내에 하위 폴더&파일들 리턴 .
-	 */
-	public ArrayList<DirFile> getChildren(){
-		return this.children;
+	public DirFile(int index, String fileName, String userId, int parentDirIdx, Date modifiedDate,
+			FileObjectIdentifier flag) {
+		super();
+		this.index = index;
+		this.fileName = fileName;
+		this.userId = userId;
+		this.parentDirIdx = parentDirIdx;
+		this.modifiedDate = modifiedDate;
+		this.flag = flag;
 	}
 
-	/**
-	 * 현재 경로내에,name과 같은 하위 폴더 또는 파일 리턴 .
-	 * @param name
-	 */
-	public DirFile getChild(String name){
-		if(this.children != null){
-			for(DirFile d : children)
-				if(d.getName().equals(name))
-					return d;
-		}
 
-        return null;
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getParentDirIdx() {
+		return parentDirIdx;
+	}
+
+	public void setParentDirIdx(int parentDirIdx) {
+		this.parentDirIdx = parentDirIdx;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public FileObjectIdentifier getFlag() {
+		return flag;
+	}
+
+	public void setFlag(FileObjectIdentifier flag) {
+		this.flag = flag;
+	}
+
+	public void print(){
+		System.out.println("DirFile [index=" + index + ", fileName=" + fileName + ", userId=" + userId + ", parentDirIdx="
+				+ parentDirIdx + ", modifiedDate=" + modifiedDate + ", flag=" + flag + ", getIndex()=" + getIndex()
+				+ ", getFileName()=" + getFileName() + ", getUserId()=" + getUserId() + ", getParentDirIdx()="
+				+ getParentDirIdx() + ", getModifiedDate()=" + getModifiedDate() + ", getFlag()=" + getFlag() + "]");
 	}
 	
-	/**
-	 * 현재 경로 반환 
-	 * */
-	public String getPath(){
-		return this.file.getAbsolutePath();
-	}
 	
-	/**
-	 * flag return. 0 = dir / 1 = file
-	 * @return
-	 */
-	public int getFOI(){
-		return this.foi.getFlag();
-	}
 }
