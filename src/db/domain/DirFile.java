@@ -12,26 +12,30 @@ public class DirFile {
 	/** upper direcotry's index root=0 else >0*/
 	private int parentDirIdx;
 	/** Last Modified Date*/
-	private Date modifiedDate;
+	private String modifiedDate;
 	/** folder = 0 , file =1*/
 	private FileObjectIdentifier flag;
-	
+	/** Client File path*/
+	private String clientPath;
 	public DirFile(){
 		
 	}
 	
-	public DirFile(int index, String fileName, String userId, int parentDirIdx, Date modifiedDate,
-			FileObjectIdentifier flag) {
+	public DirFile(int index, String fileName, String userId, int parentDirIdx, String modifiedDate,
+			int flag, String clientPath) {
 		super();
 		this.index = index;
 		this.fileName = fileName;
 		this.userId = userId;
 		this.parentDirIdx = parentDirIdx;
 		this.modifiedDate = modifiedDate;
-		this.flag = flag;
+		if(flag==0){
+			this.flag = this.flag.Folder;
+		}else{
+			this.flag= this.flag.File;
+		}
+		this.clientPath = clientPath;
 	}
-
-
 
 	public int getIndex() {
 		return index;
@@ -65,27 +69,35 @@ public class DirFile {
 		this.parentDirIdx = parentDirIdx;
 	}
 
-	public Date getModifiedDate() {
+	public String getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
+	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public FileObjectIdentifier getFlag() {
-		return flag;
+	public int getFlag() {
+		return flag.getFlag();
 	}
 
-	public void setFlag(FileObjectIdentifier flag) {
+	/*public void setFlag(FileObjectIdentifier flag) {
 		this.flag = flag;
+	}*/
+	
+	public String getClientPath() {
+		return clientPath;
+	}
+
+	public void setClientPath(String clientPath) {
+		this.clientPath = clientPath;
 	}
 
 	public void print(){
 		System.out.println("DirFile [index=" + index + ", fileName=" + fileName + ", userId=" + userId + ", parentDirIdx="
 				+ parentDirIdx + ", modifiedDate=" + modifiedDate + ", flag=" + flag + ", getIndex()=" + getIndex()
 				+ ", getFileName()=" + getFileName() + ", getUserId()=" + getUserId() + ", getParentDirIdx()="
-				+ getParentDirIdx() + ", getModifiedDate()=" + getModifiedDate() + ", getFlag()=" + getFlag() + "]");
+				+ getParentDirIdx() + ", getModifiedDate()=" + getModifiedDate() + ", getFlag()=" + getFlag() + ", getClientPath()=" + getClientPath() + "]");
 	}
 	
 	

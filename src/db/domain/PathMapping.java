@@ -1,20 +1,33 @@
 package db.domain;
 
 public class PathMapping {
+	private int dirIdx;
 	private String userId;
 	private String originFileName;
+	private String serverFileName;
 	private String serverPath;
-	private String clientPath;
 	
 	public PathMapping(){
 		
 	}
 	
-	public PathMapping(String userId, String originFileName, String clientPath) {
+	public PathMapping(int dirIdx, String userId, String originFileName, String serverFileName, String serverPath) {
 		super();
+		this.dirIdx = dirIdx;
 		this.userId = userId;
 		this.originFileName = originFileName;
-		this.clientPath = clientPath;
+		this.serverFileName = serverFileName;
+		this.serverPath = serverPath;
+	}
+	
+	
+
+	public int getDirIdx() {
+		return dirIdx;
+	}
+
+	public void setDirIdx(int dirIdx) {
+		this.dirIdx = dirIdx;
 	}
 
 	public String getUserId() {
@@ -32,6 +45,14 @@ public class PathMapping {
 	public void setOriginFileName(String originFileName) {
 		this.originFileName = originFileName;
 	}
+	
+	public String getServerFileName() {
+		return serverFileName;
+	}
+
+	public void setServerFileName(String serverFileName) {
+		this.serverFileName = serverFileName;
+	}
 
 	public String getServerPath() {
 		return serverPath;
@@ -41,20 +62,11 @@ public class PathMapping {
 		this.serverPath = serverPath;
 	}
 
-	public String getClientPath() {
-		return clientPath;
-	}
-
-	public void setClientPath(String clientPath) {
-		this.clientPath = clientPath;
-	}
-
 	
 	public void print() {
 		System.out.println("PathMapping [userId=" + userId + ", originFileName=" + originFileName + ", serverPath=" + serverPath
-				+ ", clientPath=" + clientPath + ", getUserId()=" + getUserId() + ", getOriginFileName()="
-				+ getOriginFileName() + ", getServerPath()=" + getServerPath() + ", getClientPath()=" + getClientPath()
-				+ "]");
+				 + ", getUserId()=" + getUserId() + ", getOriginFileName()="
+				+ getOriginFileName() +", getServerFileName()=" + getServerFileName() +", getServerPath()=" + getServerPath()+ "]");
 	}
 	
 	
