@@ -16,7 +16,13 @@ public class FileInfo {
 	private String userId;
 	private String currentPath;
 	private String newPath;
-	
+		
+	public FileInfo(String userId, String currentPath, String newPath) {
+		this.userId = userId;
+		this.currentPath = currentPath;
+		this.newPath = newPath;
+	}
+
 	public String getCurrentPath() {
 		return currentPath;
 	}
