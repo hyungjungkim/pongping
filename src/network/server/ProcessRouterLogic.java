@@ -10,7 +10,6 @@ import db.domain.DirFile;
 import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.RequestInfo;
-import fileprocessor.server.FileServerLogic;
 
 public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	
@@ -64,36 +63,36 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 			
 			if(this.serviceNum == ServiceNum.UPLOAD){
 				//fileServerLogic.FileUpload(fileInfo);
-				queuemanager.getCngDirNameQueue().add(handleInfo);
+				queuemanager.getCngDirNameQueue().put(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.DOWNLOAD)){
 				//fileServerLogic.FileDownload(fileInfo);
-				queuemanager.getDownloadQueue().add(handleInfo);
+				queuemanager.getDownloadQueue().put(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.MKDIR)){
 				//fileServerLogic.DirectoryCreate(fileInfo);
-				queuemanager.getMkDirQueue().add(handleInfo);
+				queuemanager.getMkDirQueue().put(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.RMVDIR)){
 				//fileServerLogic.DirectoryRemove(fileInfo);
-				queuemanager.getRmvDirQueue().add(handleInfo);
+				queuemanager.getRmvDirQueue().put(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.RMFILE)){
 				//fileServerLogic.FileRemove(userId, fileInfo.getCurrentPath());
-				queuemanager.getRmvFileQueue().add(handleInfo);
+				queuemanager.getRmvFileQueue().put(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.CNGFILENAME)){
 				//fileServerLogic.ChangeName(userId, fileInfo.getCurrentPath(), fileInfo.getNewPath());
-				queuemanager.getCngFileNameQueue().add(handleInfo);
+				queuemanager.getCngFileNameQueue().put(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.SEARCH)){
 				//fileServerLogic.FileSearch(userId, fileInfo.getCurrentPath());
-				queuemanager.getSearchQueue().add(handleInfo);
+				queuemanager.getSearchQueue().put(handleInfo);
 				//when Searching you can use the information at CurrentPath as fileName.
 			}
 			else if(this.serviceNum.equals(ServiceNum.SHOWLIST)){
 				//fileServerLogic.ShowList(userId,fileInfo.getCurrentPath());
-				queuemanager.getShowlistQueue().add(handleInfo);
+				queuemanager.getShowlistQueue().put(handleInfo);
 			}
 			
 		}
