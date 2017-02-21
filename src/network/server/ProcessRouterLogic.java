@@ -1,9 +1,12 @@
 package network.server;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import db.domain.FileInfo;
-import db.domain.ResponseInfo;
+import db.domain.RequestInfo;
 
 public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	
@@ -13,6 +16,7 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	private Socket sock;
 	
 	public ProcessRouterLogic(Socket sock){
+		
 		this.sock =sock;
 		
 	}
@@ -21,42 +25,36 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	 * 요청번호를 받아서 ServiceNum(열거형)을 리턴함
 	 */
 	@Override
-	public void depacketizer() {
+	public void depacketizer(RequestInfo requestInfo) {
 		// TODO Auto-generated method stub
-		this.userId=requestInfo.userId;
-		this.serviceNum=requestInfo.serviceNum;
-		this.fileInfo=requestInfo.fileInfo;
+		this.userId=requestInfo.getUserId();
+		this.serviceNum=requestInfo.getServiceNum();
+		this.fileInfo=requestInfo.getFileInfo();
 	}
-
-	/***
-	 * 
-	 */
 	
 	public void run() {
 		// TODO Auto-generated method stub
 		super.run();
 		while(true){
+						
+			try {
+				FileInputStream fis = new FileInputStream("objectfile.ser");
+				ObjectInputStream in = new ObjectInputStream(fis);
+				RequestInfo requestInfo = (RequestInfo)in.readObject();
+				this.depacketizer(requestInfo);
+				in.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 			
 			//RequestInfo requestInfo =(RequestInfo) read();
-			this.depacketizer();
+			
 			if(this.serviceNum == ServiceNum.UPLOAD);
 			//하면 upload함수 호출
 		}
 		
 	}
 
-	/***
-	 * FileInfo객체를 속성으로 갖고있는 ResponseInfo를 리턴함.
-	 * FileInfo에는 UserId와 FilePath갖고 있다.
-	 */
-	@Override
-	public ResponseInfo packetizer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-
-	
-	
 }

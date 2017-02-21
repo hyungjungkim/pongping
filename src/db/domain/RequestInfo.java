@@ -1,25 +1,36 @@
 package db.domain;
 
+import java.io.Serializable;
+
 import network.server.ServiceNum;
 
 /**
- * @author °­½Âº¸, ¹æÁÖ¼±
- * ÆÄÀÏ °æ·Î ¹× »ç¿ëÀÚ id, ¼­ºñ½º ¹øÈ£¸¦ °¡Áö°í ÀÖ´Â Å¬·¡½º
+ * @author ï¿½ï¿½ï¿½Âºï¿½, ï¿½ï¿½ï¿½Ö¼ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ id, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
  * ______________________________________________________
  * |  ___________________________         RequestInfo   |
  * |  |FileInfo    |            |                       |
- * |  |   ÆÄÀÏ°æ·Î     | »ç¿ëÀÚID    |   »ç¿ëÀÚID, ¼­ºñ½º¹øÈ£      |
+ * |  |   ï¿½ï¿½ï¿½Ï°ï¿½ï¿½     | ï¿½ï¿½ï¿½ï¿½ï¿½ID    |   ï¿½ï¿½ï¿½ï¿½ï¿½ID, ï¿½ï¿½ï¿½ñ½º¹ï¿½È£      |
  * |  |            |            |                       |
  * |  |____________|____________|                       |
  * |____________________________________________________|
  *
  */
-public class RequestInfo {
+public class RequestInfo implements Serializable{
+	
+	private static final long serialVersionUID = 2486787412931438059L;
 	
 	private FileInfo fileInfo;
 	private String userId;
 	private ServiceNum serviceNum;
 	
+	public RequestInfo(FileInfo fileInfo, String userId, ServiceNum serviceNum) {
+		super();
+		this.fileInfo = fileInfo;
+		this.userId = userId;
+		this.serviceNum = serviceNum;
+	}
+
 	public FileInfo getFileInfo() {
 		return fileInfo;
 	}

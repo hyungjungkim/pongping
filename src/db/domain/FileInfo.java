@@ -1,11 +1,11 @@
 package db.domain;
 
 /**
- * @author °­½Âº¸, ¹æÁÖ¼±
- * ÆÄÀÏ °æ·Î ¹× »ç¿ëÀÚ id, ¼­ºñ½º ¹øÈ£¸¦ °¡Áö°í ÀÖ´Â Å¬·¡½º
+ * @author ï¿½ï¿½ï¿½Âºï¿½, ï¿½ï¿½ï¿½Ö¼ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ id, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
  *    ___________________________          
  *    |FileInfo    |            |
- *    |   ÆÄÀÏ°æ·Î     | »ç¿ëÀÚID    |
+ *    |   ï¿½ï¿½ï¿½Ï°ï¿½ï¿½     | ï¿½ï¿½ï¿½ï¿½ï¿½ID    |
  *    |            |            |
  *    |____________|____________|
  *
@@ -13,17 +13,32 @@ package db.domain;
 
 public class FileInfo {
 	
-	private String filePath;
 	private String userId;
-	
-	public String getFilePath() {
-		return filePath;
+	private String currentPath;
+	private String newPath;
+		
+	public FileInfo(String userId, String currentPath, String newPath) {
+		this.userId = userId;
+		this.currentPath = currentPath;
+		this.newPath = newPath;
 	}
-	
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+
+	public String getCurrentPath() {
+		return currentPath;
 	}
-	
+
+	public void setCurrentPath(String currentPath) {
+		this.currentPath = currentPath;
+	}
+
+	public String getNewPath() {
+		return newPath;
+	}
+
+	public void setNewPath(String newPath) {
+		this.newPath = newPath;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -31,7 +46,5 @@ public class FileInfo {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
-	
 	
 }
