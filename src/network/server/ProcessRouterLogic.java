@@ -27,9 +27,9 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	@Override
 	public void depacketizer(RequestInfo requestInfo) {
 		// TODO Auto-generated method stub
-		this.userId=requestInfo.userId;
-		this.serviceNum=requestInfo.serviceNum;
-		this.fileInfo=requestInfo.fileInfo;
+		this.userId=requestInfo.getUserId();
+		this.serviceNum=requestInfo.getServiceNum();
+		this.fileInfo=requestInfo.getFileInfo();
 	}
 
 	/***

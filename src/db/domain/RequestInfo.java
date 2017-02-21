@@ -18,10 +18,19 @@ import network.server.ServiceNum;
  */
 public class RequestInfo implements Serializable{
 	
+	private static final long serialVersionUID = 2486787412931438059L;
+	
 	private FileInfo fileInfo;
 	private String userId;
 	private ServiceNum serviceNum;
 	
+	public RequestInfo(FileInfo fileInfo, String userId, ServiceNum serviceNum) {
+		super();
+		this.fileInfo = fileInfo;
+		this.userId = userId;
+		this.serviceNum = serviceNum;
+	}
+
 	public FileInfo getFileInfo() {
 		return fileInfo;
 	}
