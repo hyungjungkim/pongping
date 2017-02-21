@@ -85,7 +85,7 @@ public class FileServerLogic implements FileSever {
 	public List<DirFile> FileRemove(String userId, String currentPath) throws IOException {
 		// TODO client requesting path => to DB
 		String fileRemovePath = null; // from DB
-		ois = new ObjectInputStream(sock.getInputStream()); 
+		out = new ObjectOutputStream(sock.getOutputStream());
 		File file = new File(fileRemovePath);
 		if(file.delete()){
 			System.out.println(file.getName() + " is deleted!");
@@ -101,33 +101,66 @@ public class FileServerLogic implements FileSever {
 	}
 
 	@Override
-	public List<DirFile> FileSearch(String userId, String searchName) {
-		// TODO Auto-generated method stub
+	public List<DirFile> FileSearch(String userId, String searchName) throws IOException {
+		// TODO client requesting searchName => to DB
+		out = new ObjectOutputStream(sock.getOutputStream());
+		// Serializable
+		ListInfor retList = new ListInfor();
+		// TODO retList.setListInfor(list);
+		out.writeObject(retList);
 		return null;
 	}
 
 	@Override
-	public List<DirFile> DirectoryCreate(FileInfo fileInfor) {
-		// TODO Auto-generated method stub
+	public List<DirFile> DirectoryCreate(FileInfo fileInfor) throws IOException {
+		// TODO client requesting path => to DB
+		String dirCreatePath = null; // from DB
+		File file = new File(dirCreatePath);
+		if(!file.exists()){
+			file.mkdirs();
+			System.out.println("디렉토리 명 = " + dirCreatePath); // dedug
+		}
+		out = new ObjectOutputStream(sock.getOutputStream());
+		// Serializable
+		ListInfor retList = new ListInfor();
+		// TODO retList.setListInfor(list);
+		out.writeObject(retList);
 		return null;
 	}
 
 	@Override
 	public List<DirFile> DirectoryRemove(FileInfo fileInfor) {
-		// TODO Auto-generated method stub
+		// TODO client requesting path => to DB
+		String serverPath = null; // from DB
 		return null;
 	}
 
 	@Override
-	public List<DirFile> ShowList(String userId, String currentPath) {
-		// TODO Auto-generated method stub
+	public List<DirFile> ShowList(String userId, String currentPath) throws IOException {
+		out = new ObjectOutputStream(sock.getOutputStream());
+		// Serializable
+		ListInfor retList = new ListInfor();
+		// TODO retList.setListInfor(list);
+		out.writeObject(retList);
 		return null;
 	}
 
 	@Override
-	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) {
-		// TODO Auto-generated method stub 
-		// 회의 필요
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) throws IOException {
+		// TODO client requesting currentPath => to DB
+		String serverCurrentPath = null; // from DB
+		// TODO client requesting newPath => to DB
+		String serverNewPath = null; // from DB
+		File file1 = new File(serverCurrentPath);
+	    File file2 = new File(serverNewPath);
+	    if (!file1.renameTo(file2)) {
+	      System.out.println("이름 변경 에러 : " + file1);
+	    }
+		out = new ObjectOutputStream(sock.getOutputStream());
+		// Serializable
+		ListInfor retList = new ListInfor();
+		// TODO retList.setListInfor(list);
+		out.writeObject(retList);
 		return null;
 	}
 
