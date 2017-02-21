@@ -14,10 +14,10 @@ public interface FileClient {
 	 *  File Method
 	 */
 
-	public List<DirFile> FileUpload(String userId, String localPath) throws IOException;
+	public List<DirFile> FileUpload(String userId, String localPath) throws IOException, ClassNotFoundException;
 	public boolean FileDownload(String userId, String localPath) throws IOException;
-	public List<DirFile> FileRemove(String userId, String currentPath) throws IOException;
-	public List<DirFile> ChangeName(String userId, String currentPath, String newPath);
+	public List<DirFile> FileRemove(String userId, String currentPath) throws IOException, ClassNotFoundException;
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) throws IOException, ClassNotFoundException;
 	public List<DirFile> FileSearch(String userId, String searchName);
 
 	/*
