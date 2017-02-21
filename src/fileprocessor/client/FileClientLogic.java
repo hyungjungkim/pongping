@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.List;
 
 import db.domain.DirFile;
+import db.domain.RequestInfo;
 
 public class FileClientLogic implements FileClient {
 	//
@@ -17,6 +18,9 @@ public class FileClientLogic implements FileClient {
 	DataInputStream dis = null;
 	FileInputStream fis = null;
 	FileOutputStream fos = null;
+	
+	//
+	RequestInfo rqInfo = null;
 
 	public FileClientLogic(Socket sock) {
 		// sock = tcpRl.getClient();
@@ -28,9 +32,11 @@ public class FileClientLogic implements FileClient {
 	public List<DirFile> FileUpload(String userId, String localPath) throws IOException {
 		// TODO Auto-generated method stub
 
+		
+		
 		// need localPath parsing for file name
 		String fileName = localPath.substring(localPath.lastIndexOf("/"), localPath.length());
-
+		
 		byte[] contentBytes = new byte[1024];
 
 		try {
