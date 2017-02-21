@@ -7,15 +7,21 @@ import db.domain.DirFile;
 import db.domain.FileInfo;
 
 public class FileServerLogic implements FileSever {
-
+	private Socket sock;
+	
+	public FileServerLogic(Socket sock) {
+		// TODO Auto-generated constructor stub
+		this.sock = sock;
+	}
+	
 	@Override
-	public List<DirFile> FileUpload(Socket socket, FileInfo fileInfor) {
+	public List<DirFile> FileUpload(FileInfo fileInfor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean FileDownload(Socket socket, FileInfo fileInfor) {
+	public boolean FileDownload(FileInfo fileInfor) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -33,13 +39,13 @@ public class FileServerLogic implements FileSever {
 	}
 
 	@Override
-	public List<DirFile> DirectoryCreate(Socket socket, FileInfo fileInfor) {
+	public List<DirFile> DirectoryCreate(FileInfo fileInfor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<DirFile> DirectoryRemove(Socket socket, FileInfo fileInfor) {
+	public List<DirFile> DirectoryRemove(FileInfo fileInfor) {
 		// TODO Auto-generated method stub
 		return null;
 	}

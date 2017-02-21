@@ -1,11 +1,9 @@
 package network.server;
 
-import db.domain.ResponseInfo;
+import db.domain.RequestInfo;
 
 public interface ProcessRouter {
 	
-	public void depacketizer();
-	public ResponseInfo packetizer();
-	public void runService(ServiceNum serviceNum);
+	public void depacketizer(RequestInfo requestInfo);
 		
 }

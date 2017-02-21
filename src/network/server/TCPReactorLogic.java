@@ -21,17 +21,21 @@ public class TCPReactorLogic implements TCPReactor {
 		}
 		
 	}
+	@Override
+	public void startServer() {
+		// TODO Auto-generated method stub
+		try{
+			
+			Socket sock = this.servSock.accept();
+			ProcessRouterLogic processRouterLogic = new ProcessRouterLogic(sock);
+			
+		}catch(IOException e){
+			
+			e.printStackTrace();
+			
+		}
+		
+	}
 	
-	@Override
-	public Socket getClient() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void respondTo(RequestInfo requestInfo) {
-		// TODO Auto-generated method stub
-		System.out.println();
-	}
-
+	
 }
