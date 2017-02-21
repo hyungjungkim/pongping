@@ -1,10 +1,12 @@
 package network.server;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import db.domain.FileInfo;
 import db.domain.RequestInfo;
-import db.domain.ResponseInfo;
 
 public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	
@@ -39,8 +41,21 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 		super.run();
 		while(true){
 			
+			
+			try {
+				FileInputStream fis = new FileInputStream("objectfile.ser");
+				ObjectInputStream in = new ObjectInputStream(fis);
+				RequestInfo requestInfo = (RequestInfo)in.readObject();
+				this.depacketizer(requestInfo);
+				in.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			
 			//RequestInfo requestInfo =(RequestInfo) read();
-			this.depacketizer();
+			
 			if(this.serviceNum == ServiceNum.UPLOAD);
 			//하면 upload함수 호출
 		}
