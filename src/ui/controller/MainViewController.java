@@ -101,7 +101,15 @@ public class MainViewController implements Initializable {
 		alertDevInfo = new Alert(AlertType.INFORMATION);
 
 		// 초기 로그인 시 받는 리스트
-		dirFile = fileClient.ShowList(userId, "0");
+		try {
+			dirFile = fileClient.ShowList(userId, "0");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		currentPath = userId;
 		DisplayList();
 	}
@@ -154,48 +162,56 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @param e
 	 */
+	//완료
 	public void handleSearch(ActionEvent e) {
-		dirFile = fileClient.FileSearch(userId, searchName);
+		try {
+			dirFile = fileClient.FileSearch(userId, searchName);
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		DisplayList();
 	}
 
-	// 폴더 생성 버튼 눌렀을때
+	/**
+	 * 폴더 생성
+	 * @param e
+	 */
+	// 완료
 	public void handleCreateFolder(ActionEvent e) {
-		// Todo
-		// TextInputDialog dialog = new TextInputDialog("walter");
-		// dialog.setTitle("CreateFolderName");
-		// dialog.setHeaderText("Set a forder Name");
-		// dialog.setContentText("Please enter folder name:");
-		//
-		// // Traditional way to get the response value.
-		// Optional<String> result = dialog.showAndWait();
-		// if (result.isPresent()) {
-		// System.out.println("Folder name: " + result.get());
-		// }
-		//
-		// // The Java 8 way to get the response value (with lambda expression).
-		// result.ifPresent(name -> System.out.println("Folder name: " + name));
-
+		
 		String entered = "none.";
 		TextInputDialog dialog = new TextInputDialog("hi");
 		dialog.setTitle("hi");
 		dialog.setHeaderText("Change Name");
 
 		Optional<String> result = dialog.showAndWait();
-
+		String folderNameWithPath ="";
 		if (result.isPresent()) {
 
-			entered = result.get();
+			folderNameWithPath = currentPath + "/" + result.get();
 		}
-
+		
 		// 중복 체크 후 이름 변경
 		if (IsExist(entered)) {
 
 			System.out.println("응 폴더 존재해");
 		} else {
-			dirFile = fileClient.DirectoryCreate(userId, currentPath);
+			try {
+				dirFile = fileClient.DirectoryCreate(userId, folderNameWithPath);
+				DisplayList();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
-			DisplayList();
+			
 		}
 	}
 
@@ -209,7 +225,21 @@ public class MainViewController implements Initializable {
 		//
 		try {
 			//Todo
-			dirFile = fileClient.FileUpload(userId, localPath);
+			String localFilePath = selectedFile.getPath();
+			
+			String entered = "none.";
+			TextInputDialog dialog = new TextInputDialog("hi");
+			dialog.setTitle("FileUpload");
+			dialog.setHeaderText("Set Upload File Name :");
+
+			Optional<String> result = dialog.showAndWait();
+			String fileNameWithPath ="";
+			if (result.isPresent()) {
+
+				fileNameWithPath = currentPath + "/" + result.get();
+			}
+			
+			dirFile = fileClient.FileUpload(userId, localFilePath, fileNameWithPath);
 		} catch (IOException d) {
 			d.printStackTrace();
 		}
@@ -226,7 +256,8 @@ public class MainViewController implements Initializable {
 
 		boolean isFileDownload = false;
 		try {
-			isFileDownload = fileClient.FileDownload(userId, "localPath");
+			String localFilePath = selectedFile.getPath();
+			isFileDownload = fileClient.FileDownload(userId, localPath, localFilePath);
 		} catch (IOException f) {
 			f.printStackTrace();
 		}
@@ -247,7 +278,17 @@ public class MainViewController implements Initializable {
 
 	public void handleDelete(ActionEvent e) {
 		//
-		dirFile = fileClient.DirectoryRemove(userId, currentPath);
+		try {
+			//파일 이름 가져오기
+			String fileNameWithPath = get()+"/"+currentPath;
+			dirFile = fileClient.DirectoryRemove(userId, fileNameWithPath);
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		DisplayList();
 	}
@@ -278,7 +319,15 @@ public class MainViewController implements Initializable {
 			System.out.println("응 파일 존재해");
 		} else {
 			String newPath = currentPath + "/" + entered;
-			dirFile = fileClient.ChangeName(userId, currentPath, newPath);
+			try {
+				dirFile = fileClient.ChangeName(userId, currentPath, newPath);
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			DisplayList();
 		}
 	
@@ -302,8 +351,9 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @return
 	 */
+	//Todo
 	public boolean IsExist(String name) {
-		// 만약 폴더 혹은 파일 이름이랑 같으면
+		// 만약 폴더 혹은 파일 이름이랑 같으면 showlist 반환값의 끄트머리랑 비교
 		
 		return false;
 	}
@@ -317,18 +367,41 @@ public class MainViewController implements Initializable {
 		int lastIndex = currentPath.lastIndexOf("/");
 		String renewPath = currentPath.substring(0, lastIndex);
 
-		dirFile = fileClient.ShowList(userId, renewPath);
+		try {
+			dirFile = fileClient.ShowList(userId, renewPath);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		DisplayList();
 	}
 
 	/**
 	 * 하위 폴더 이동
 	 */
-	public void forward(String currentPath, String pathToGo) {
+	public void Forward(String currentPath, String pathToGo) {
 
 		String renewPath = currentPath + "/" + pathToGo;
 
-		dirFile = fileClient.ShowList(userId, renewPath);
+		try {
+			dirFile = fileClient.ShowList(userId, renewPath);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		DisplayList();
+	}
+	
+	/**
+	 * 검색 후 다운로드
+	 */
+	public void SearchedFileDownload(){
+		
 	}
 }
