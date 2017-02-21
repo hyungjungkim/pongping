@@ -22,8 +22,6 @@ public class RequestInfo implements Serializable{
 	private String userId;
 	private ServiceNum serviceNum;
 	
-	
-	
 	public FileInfo getFileInfo() {
 		return fileInfo;
 	}
