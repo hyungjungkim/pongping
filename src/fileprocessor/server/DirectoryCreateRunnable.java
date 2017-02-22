@@ -8,28 +8,42 @@ import java.util.List;
 
 import db.domain.DirFile;
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.domain.ListInfor;
+import network.server.QueueManager;
 
 public class DirectoryCreateRunnable implements Runnable{
 	//
 	private Socket sock = null;
 	private FileInfo fileInfo = null;
 	private ObjectOutputStream out = null;
+	private QueueManager queuemanager;
+	private HandleInfo handleInfo;
 	
-	public DirectoryCreateRunnable(FileInfo fileInfo, Socket sock) {
+	public DirectoryCreateRunnable() {
 		// TODO Auto-generated constructor stub
-		this.fileInfo = fileInfo;
-		this.sock = sock;
+		queuemanager = QueueManager.getInstance();
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		try {
-			this.DirectoryCreate(this.fileInfo);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//
+		while(true){
+			try {
+				Thread.sleep(10);
+				this.handleInfo = queuemanager.getMkDirQueue().take();
+				this.fileInfo = this.handleInfo.getFileInfo();
+				this.sock = this.handleInfo.getSock();
+				this.DirectoryCreate(this.fileInfo);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				// TODO stop()
+				e.printStackTrace();
+			}	
 		}
 	}
 	public List<DirFile> DirectoryCreate(FileInfo fileInfor) throws IOException {

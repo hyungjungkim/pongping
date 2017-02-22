@@ -12,47 +12,51 @@ import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import network.server.QueueManager;
 
-public class ChangeNameRunnable implements Runnable{
+public class ChangeNameRunnable implements Runnable {
 	//
 	private Socket sock = null;
 	private FileInfo fileInfo = null;
 	private ObjectOutputStream out = null;
 	private HandleInfo handleinfo;
 	private QueueManager queuemanager;
-	
-	public ChangeNameRunnable(){
-		//Constructor
+
+	public ChangeNameRunnable() {
+		// Constructor
 		queuemanager = QueueManager.getInstance();
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		try {
-			Thread.sleep(10);
-			this.handleinfo = queuemanager.getCngDirNameQueue().take();
-			this.sock = this.handleinfo.getSock();
-			this.fileInfo = this.handleinfo.getFileInfo();
-			//
-			this.ChangeName(fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (true) {
+			try {
+				Thread.sleep(10);
+				this.handleinfo = queuemanager.getCngDirNameQueue().take();
+				this.sock = this.handleinfo.getSock();
+				this.fileInfo = this.handleinfo.getFileInfo();
+				//
+				this.ChangeName(fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				// TODO stop()
+				e.printStackTrace();
+			}
 		}
 	}
-	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) throws IOException{
+
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) throws IOException {
 		// TODO client requesting currentPath => to DB
 		String serverCurrentPath = null; // from DB
 		// TODO client requesting newPath => to DB
 		String serverNewPath = null; // from DB
 		File file1 = new File(serverCurrentPath);
-	    File file2 = new File(serverNewPath);
-	    if (!file1.renameTo(file2)) {
-	      System.out.println("Error, ChangeName Method is failed " + file1);
-	    }
+		File file2 = new File(serverNewPath);
+		if (!file1.renameTo(file2)) {
+			System.out.println("Error, ChangeName Method is failed " + file1);
+		}
 		out = new ObjectOutputStream(sock.getOutputStream());
 		// Serializable
 		ListInfor retList = new ListInfor();
