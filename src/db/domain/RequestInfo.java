@@ -5,12 +5,12 @@ import java.io.Serializable;
 import network.server.ServiceNum;
 
 /**
- * @author ���º�, ���ּ�
- * ���� ��� �� ����� id, ���� ��ȣ�� ������ �ִ� Ŭ����
+ * @author 占쏙옙占승븝옙, 占쏙옙占쌍쇽옙
+ * 占쏙옙占쏙옙 占쏙옙占� 占쏙옙 占쏙옙占쏙옙占� id, 占쏙옙占쏙옙 占쏙옙호占쏙옙 占쏙옙占쏙옙占쏙옙 占쌍댐옙 클占쏙옙占쏙옙
  * ______________________________________________________
  * |  ___________________________         RequestInfo   |
  * |  |FileInfo    |            |                       |
- * |  |   ���ϰ��     | �����ID    |   �����ID, ���񽺹�ȣ      |
+ * |  |   占쏙옙占싹곤옙占�     | 占쏙옙占쏙옙占폠D    |   占쏙옙占쏙옙占폠D, 占쏙옙占쏟스뱄옙호      |
  * |  |            |            |                       |
  * |  |____________|____________|                       |
  * |____________________________________________________|
@@ -25,7 +25,7 @@ public class RequestInfo implements Serializable{
 	private ServiceNum serviceNum;
 	
 	public RequestInfo(FileInfo fileInfo, String userId, ServiceNum serviceNum) {
-		super();
+		//super();
 		this.fileInfo = fileInfo;
 		this.userId = userId;
 		this.serviceNum = serviceNum;

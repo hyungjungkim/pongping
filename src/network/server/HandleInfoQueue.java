@@ -7,10 +7,10 @@ import db.domain.HandleInfo;
 
 public class HandleInfoQueue {
 	//
-	private Queue<HandleInfo> queue;
+	private ArrayBlockingQueue<HandleInfo> queue;
 	
 	public HandleInfoQueue() {
-		this.queue = new ArrayBlockingQueue<>(100);
+		this.queue = new ArrayBlockingQueue<>(100, true);
 	}
 
 	public void put(HandleInfo handleInfo) {

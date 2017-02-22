@@ -1,7 +1,8 @@
 package network.server;
 
-import java.io.FileInputStream;
+import java.io.FileInputStream; 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.List;
@@ -10,6 +11,7 @@ import db.domain.DirFile;
 import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.RequestInfo;
+import db.store.DBStore;
 
 public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	
@@ -31,8 +33,12 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	public void depacketizer(RequestInfo requestInfo) {
 		// TODO Auto-generated method stub
 		this.userId=requestInfo.getUserId();
+		System.out.println("userId : " + this.userId);
 		this.serviceNum=requestInfo.getServiceNum();
+		System.out.println("serviceNum : " + this.serviceNum);
 		this.fileInfo=requestInfo.getFileInfo();
+		System.out.println("fileInfo : " + toString());
+		
 	}
 
 	/***
@@ -42,28 +48,39 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	public void run() {
 		// TODO Auto-generated method stub
 		super.run();
+		ObjectInputStream in = null;
+		try {
+			in = new ObjectInputStream(sock.getInputStream());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		while(true){
 			
 			HandleInfo handleInfo = null;
 			try {
-				FileInputStream fis = new FileInputStream("objectfile.ser");
-				ObjectInputStream in = new ObjectInputStream(fis);
+//				FileInputStream fis = new FileInputStream("objectfile.ser");
+				
+//				System.out.println("inputaaa");
 				RequestInfo requestInfo = (RequestInfo)in.readObject();
+				System.out.println(requestInfo.getUserId());
 				this.depacketizer(requestInfo);
+				DBStore dbstore = DBStore.getInstance(this.userId);
 				handleInfo = new HandleInfo(sock, fileInfo);
-				in.close();
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
 			//FileServerLogic fileServerLogic=new FileServerLogic(sock);
-			
 			QueueManager queuemanager = QueueManager.getInstance();
 			
-			if(this.serviceNum == ServiceNum.UPLOAD){
+			if(this.serviceNum.equals(ServiceNum.UPLOAD)){
 				//fileServerLogic.FileUpload(fileInfo);
-				queuemanager.getCngDirNameQueue().put(handleInfo);
+//				System.out.println(fileInfo.getCurrentPath()+"¿Ã∞‘ null???");
+				queuemanager.getUploadQueue().put(handleInfo);
 			}
 			else if(this.serviceNum.equals(ServiceNum.DOWNLOAD)){
 				//fileServerLogic.FileDownload(fileInfo);

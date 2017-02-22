@@ -1,17 +1,19 @@
 package db.domain;
 
+import java.io.Serializable;
+
 /**
- * @author ���º�, ���ּ�
- * ���� ��� �� ����� id, ���� ��ȣ�� ������ �ִ� Ŭ����
+ * @author 占쏙옙占승븝옙, 占쏙옙占쌍쇽옙
+ * 占쏙옙占쏙옙 占쏙옙占� 占쏙옙 占쏙옙占쏙옙占� id, 占쏙옙占쏙옙 占쏙옙호占쏙옙 占쏙옙占쏙옙占쏙옙 占쌍댐옙 클占쏙옙占쏙옙
  *    ___________________________          
  *    |FileInfo    |            |
- *    |   ���ϰ��     | �����ID    |
+ *    |   占쏙옙占싹곤옙占�     | 占쏙옙占쏙옙占폠D    |
  *    |            |            |
  *    |____________|____________|
  *
  */
 
-public class FileInfo {
+public class FileInfo implements Serializable{
 	
 	private String userId;
 	private String currentPath;

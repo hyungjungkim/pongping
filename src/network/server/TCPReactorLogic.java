@@ -13,7 +13,7 @@ public class TCPReactorLogic implements TCPReactor {
 		// TODO Auto-generated constructor stub
 		try {
 			
-			this.servSock = new ServerSocket(9999);
+			this.servSock = new ServerSocket(9900);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
