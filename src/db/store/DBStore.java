@@ -98,21 +98,22 @@ public class DBStore{
 	 * folder, file -> create/ delete/ modify/
 	 * move/ find/ copy/ 
 	 * showList 
-	 * 
+	 * 	
+	 * C:\FileServer\0001
 	 * */
 	
 	public String FileUpload(String filePath){
-		String serverPath =root+"\\"+userID+"\\";
+		String serverPath =root+"\\"+userID;
 		String[] parse = filePath.split("/");
 		//parentIndex search
 		int parentIdx = getParentIndex(filePath);
-	
+		
 		//ModifiedDate
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		//DirFile add
-		DirFile dirFile = new DirFile(dirFileList.size()+1, parse[parse.length-1], userID, parentIdx,sdf.format(today) , 1, filePath);
+		DirFile dirFile = new DirFile(dirFileList.size(), parse[parse.length-1], userID, parentIdx,sdf.format(today) , 1, filePath);
 		dirFileList.add(dirFile);
 		
 		String newFileName =  System.currentTimeMillis()+"_"+dirFile.getFileName();
@@ -122,20 +123,47 @@ public class DBStore{
 		PathMapping pathMapping = new PathMapping(dirFile.getIndex(), userID, dirFile.getFileName(),newFileName, serverPath);
 		pathMappingList.add(pathMapping);
 		
+		//System.out.println("DBStore FileUpload Return : "+serverPath);
 		return serverPath;
 	}
 	
 	public String FileDownload(String filePath){
 		for(DirFile d : dirFileList){
 			if(filePath.equals(d.getClientPath())){
-				return pathMappingList.get(d.getIndex()).getServerPath();
+				for(PathMapping p : pathMappingList){
+					if(p.getDirIdx()==d.getIndex()){
+						return p.getServerPath();
+					}
+				}
 			}
 		}
 		return null;
 	}
 	
-	public void FileRemove(){
-		
+	public String FileRemove(String filePath){
+		String[] parse = filePath.split("/");
+		List<DirFile> array = FileSearch(parse[parse.length-1]);
+		int parentIdx = getParentIndex(filePath);
+		String serverPath = "";
+		for(DirFile d : array){
+			if(d.getFlag()==1){
+				if(parentIdx == d.getParentDirIdx()){
+					for(PathMapping p : pathMappingList)
+					{
+						if(d.getIndex() == p.getDirIdx())
+						{
+							serverPath = p.getServerPath();
+							dirFileList.remove(d);
+							pathMappingList.remove(p);
+							break;
+						}
+					}
+					
+					return serverPath;
+				}
+			}
+		}
+		return serverPath;
 	}
 	
 	public List<DirFile> FileSearch(String fileName){
@@ -160,32 +188,14 @@ public class DBStore{
 		String[] pars =filePath.split("/");
 		String dirName =pars[pars.length-1];
 		
-		DirFile dirFile = new DirFile(dirFileList.size()+1, dirName, userID, parentIdx, sdf.format(today), 0, filePath);
+		DirFile dirFile = new DirFile(dirFileList.size(), dirName, userID, parentIdx, sdf.format(today), 0, filePath);
 		dirFileList.add(dirFile);
 		
 		String serverFileName =  System.currentTimeMillis()+"_"+dirFile.getFileName();
 		String serverPath =root+"\\"+userID+"\\"+parse[parse.length-1].charAt(0)+"\\"+serverFileName;
 		PathMapping pathMapping = new PathMapping(dirFile.getIndex(), userID, dirFile.getFileName(), serverFileName, serverPath );
+		pathMappingList.add(pathMapping);
 		
-		return serverPath;
-	}
-	
-	public String DirecotryRemove(String filePath){
-		String[] parse = filePath.split("/");
-		List<DirFile> array = FileSearch(filePath);
-		int parentIdx = getParentIndex(filePath);
-		String serverPath = null;
-		for(DirFile d : array){
-			if(d.getFlag()==0){
-				if(parse[parse.length-1].equals(d.getFileName()) && parentIdx == d.getParentDirIdx()){
-					dirFileList.remove(d);
-					serverPath =pathMappingList.get(d.getIndex()).getServerPath();
-					pathMappingList.remove(d.getIndex());
-					
-					return serverPath;
-				}
-			}
-		}
 		return serverPath;
 	}
 	
@@ -199,8 +209,12 @@ public class DBStore{
 		}
 		return result;
 	}
-	
+
 	public void ChangeName(String filePath, String newName){
+		
+	}
+	
+	public void DirecotryRemove(String filePath){
 		
 	}
 	
@@ -213,13 +227,13 @@ public class DBStore{
 	
 	private int getParentIndex(String filePath){
 		int parentIdx = 0;
-		String str ="";
+		String str = "";
 		String[] parse = filePath.split("/");
-		for(int i=0; i<parse.length-2; i++){
-			str += parse[i];
+		for(int i=0; i<parse.length-1; i++){
+			str += (parse[i]+"/");
 		}
 		for(DirFile temp : dirFileList){
-			if(str.equals(temp.getClientPath())){
+			if(str.equals(temp.getClientPath()+"/")){
 				return parentIdx = temp.getIndex();
 			}
 		}
