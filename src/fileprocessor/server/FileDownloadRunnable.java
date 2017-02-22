@@ -35,14 +35,12 @@ public class FileDownloadRunnable implements Runnable{
 			this.dbStore = DBStore.getInstance(this.fileInfo.getUserId());
 			//
 			this.FileDownload(this.fileInfo);
-		}catch(IOException e){
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		}catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void FileDownload(FileInfo fileInfor) throws IOException {
+	public void FileDownload(FileInfo fileInfor) {
 		// client requesting path => to DB
 		String clientPath = fileInfor.getCurrentPath();
 		String serverDownPath = dbStore.FileDownload(clientPath); // from DB

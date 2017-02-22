@@ -33,6 +33,7 @@ public class ChangeNameRunnable implements Runnable{
 			this.handleinfo = queuemanager.getCngDirNameQueue().take();
 			this.sock = this.handleinfo.getSock();
 			this.fileInfo = this.handleinfo.getFileInfo();
+			//
 			this.ChangeName(fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -42,7 +43,7 @@ public class ChangeNameRunnable implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) throws IOException {
+	public List<DirFile> ChangeName(String userId, String currentPath, String newPath) throws IOException{
 		// TODO client requesting currentPath => to DB
 		String serverCurrentPath = null; // from DB
 		// TODO client requesting newPath => to DB
