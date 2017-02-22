@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import db.domain.FileInfo;
+import db.store.DBStore;
 
 public class FileDownloadRunnable implements Runnable{
 	//
@@ -13,14 +14,15 @@ public class FileDownloadRunnable implements Runnable{
 	private Socket sock = null;
 	private DataOutputStream dos = null;
 	private FileInputStream fis = null;
+	private DBStore dbStore;
 	
 	public FileDownloadRunnable(FileInfo fileInfo , Socket sock){
 		this.fileInfo = fileInfo;
 		this.sock = sock;
+		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 	}
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		try{
 			this.FileDownload(this.fileInfo);
 		}catch(IOException e){
@@ -28,8 +30,9 @@ public class FileDownloadRunnable implements Runnable{
 		}
 	}
 	public void FileDownload(FileInfo fileInfor) throws IOException {
-		// TODO client requesting path => to DB
-		String serverDownPath = null; // from DB
+		// client requesting path => to DB
+		String clientPath = fileInfor.getCurrentPath();
+		String serverDownPath = dbStore.FileDownload(clientPath); // from DB
 		byte[] contentBytes = new byte[1024];
 
 		try {
@@ -43,9 +46,9 @@ public class FileDownloadRunnable implements Runnable{
 
 				dos.write(contentBytes, 0, count);
 			}
+			System.out.println("server filedownload is finished");
 		} catch (IOException e) {
 			e.getStackTrace();
 		}
-		// TODO
 	}
 }
