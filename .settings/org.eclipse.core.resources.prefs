@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
 encoding//src/db/domain/FileInfo.java=UTF-8
 encoding//src/db/domain/RequestInfo.java=UTF-8
+encoding//src/db/store/DBStore.java=UTF-8

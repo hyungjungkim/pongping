@@ -35,6 +35,14 @@ public class FileClientLogic implements FileClient {
 	public FileClientLogic(Socket sock) {
 		// sock = tcpRl.getClient();
 		this.sock = sock;
+		
+//		try {
+//			ois = new ObjectInputStream(sock.getInputStream());
+//			out = new ObjectOutputStream(sock.getOutputStream());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	// FileUpload Method using OutputStream to Server
@@ -71,9 +79,9 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {
-			out.close();
-			fis.close();
-			dos.close();
+//			out.close();
+//			fis.close();
+//			dos.close();
 		}
 		// TODO
 		// DeSerializable
@@ -82,7 +90,7 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} finally {
-			ois.close();
+//			ois.close();
 		}
 		return retList.getListInfor();
 	}
@@ -112,9 +120,9 @@ public class FileClientLogic implements FileClient {
 
 			e.getStackTrace();
 		}finally{
-			out.close();
-			dis.close();
-			fos.close();
+//			out.close();
+//			dis.close();
+//			fos.close();
 		}
 		return true;
 	}
@@ -133,8 +141,8 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e) {
 			e.getStackTrace();
 		}finally{
-			out.close();
-			ois.close();
+//			out.close();
+//			ois.close();
 		}
 
 		return retList.getListInfor();
@@ -162,8 +170,8 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e) {
 			e.getStackTrace();
 		}finally{
-			out.close();
-			ois.close();
+//			out.close();
+//			ois.close();
 		}
 
 		return retList.getListInfor();
@@ -184,8 +192,8 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e) {
 			e.getStackTrace();
 		}finally{
-			out.close();
-			ois.close();
+//			out.close();
+//			ois.close();
 		}
 		return retList.getListInfor();
 	}
@@ -204,8 +212,8 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e) {
 			e.getStackTrace();
 		}finally{
-			out.close();
-			ois.close();
+//			out.close();
+//			ois.close();
 		}
 
 		return retList.getListInfor();
@@ -225,8 +233,8 @@ public class FileClientLogic implements FileClient {
 		} catch (IOException e) {
 			e.getStackTrace();
 		}finally{
-			out.close();
-			ois.close();
+//			out.close();
+//			ois.close();
 		}
 		return retList.getListInfor();
 	}
@@ -242,12 +250,16 @@ public class FileClientLogic implements FileClient {
 		ois = new ObjectInputStream(sock.getInputStream());
 		try {
 			out.writeObject(rqInfo);
-			retList = (ListInfor) ois.readObject();
+			out.flush();
+			retList = (ListInfor)ois.readObject();
+			System.out.println("zzzzzzzzz");
+			//System.out.println(retList.getListInfor().get(0));
 		} catch (IOException e) {
-			e.getStackTrace();
+			e.printStackTrace();
+//			e.getStackTrace();
 		}finally{
-			out.close();
-			ois.close();
+//			out.close();
+//			ois.close();
 		}
 
 		return retList.getListInfor();

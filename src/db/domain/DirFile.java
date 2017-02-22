@@ -1,8 +1,13 @@
 package db.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DirFile {
+public class DirFile implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7244744784677482997L;
 	/** file or folder index*/
 	private int index;
 	/** file or folder name*/

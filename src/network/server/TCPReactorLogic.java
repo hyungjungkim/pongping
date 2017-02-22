@@ -30,8 +30,9 @@ public class TCPReactorLogic implements TCPReactor {
 				
 				Socket sock = this.servSock.accept();
 				ProcessRouterLogic processRouterLogic = new ProcessRouterLogic(sock);
-				
+				System.out.println("[Server] " + sock.getInetAddress() + " 접속");
 				Thread processRouterThread = new Thread(processRouterLogic);
+				System.out.println("[Server] 라우터 스레드 시작");
 				processRouterThread.start();
 				
 			}

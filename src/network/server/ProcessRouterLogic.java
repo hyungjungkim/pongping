@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
@@ -49,8 +50,10 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 		// TODO Auto-generated method stub
 		super.run();
 		ObjectInputStream in = null;
+		ObjectOutputStream out = null;
 		try {
 			in = new ObjectInputStream(sock.getInputStream());
+			out = new ObjectOutputStream(sock.getOutputStream());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -68,7 +71,7 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 				this.depacketizer(requestInfo);
 				DBStore dbstore = DBStore.getInstance(this.userId);
 				handleInfo = new HandleInfo(sock, fileInfo);
-				
+				System.out.println(handleInfo.getFileInfo().getCurrentPath());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -21,7 +21,16 @@ public class HandleInfoQueue {
 	
 	public HandleInfo take() {
 		
-		return this.queue.poll();
+		try {
+			
+			return this.queue.take();
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		return null;
 		
 	}
 	

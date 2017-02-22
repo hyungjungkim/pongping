@@ -37,6 +37,7 @@ public class ThreadManager {
 			ChangeNameRunnable changeNameRunnable = new ChangeNameRunnable();
 			handlerThread = new Thread(changeNameRunnable);
 //			this.changeNameRunnables.add(handlerThread);
+			handlerThread.start();
 			
 		}
 		
@@ -53,6 +54,7 @@ public class ThreadManager {
 			DirectoryRemoveRunnable directoryRemoveRunnable = new DirectoryRemoveRunnable();
 			handlerThread = new Thread(directoryRemoveRunnable);
 //			this.directoryRemoveRunnables.add(handlerThread);
+			handlerThread.start();
 			
 		}
 		
@@ -61,6 +63,7 @@ public class ThreadManager {
 			FileDownloadRunnable fileDownloadRunnable = new FileDownloadRunnable();
 			handlerThread = new Thread(fileDownloadRunnable);
 //			this.fileDownloadRunnables.add(handlerThread);
+			handlerThread.start();
 			
 		}
 		
@@ -69,6 +72,7 @@ public class ThreadManager {
 			FileRemoveRunnable fileRemoveRunnable = new FileRemoveRunnable();
 			handlerThread = new Thread(fileRemoveRunnable);
 //			this.fileRemoveRunnables.add(handlerThread);
+			handlerThread.start();
 			
 		}
 		
@@ -77,6 +81,7 @@ public class ThreadManager {
 			FileSearchRunnable fileSearchRunnable = new FileSearchRunnable();
 			handlerThread = new Thread(fileSearchRunnable);
 //			this.fileSearchRunnables.add(handlerThread);
+			handlerThread.start();
 			
 		}
 		
@@ -85,16 +90,18 @@ public class ThreadManager {
 			FileUploadRunnable fileUploadRunnable = new FileUploadRunnable();
 			handlerThread = new Thread(fileUploadRunnable);
 //			this.fileUploadRunnables.add(handlerThread);
+			handlerThread.start();
 			
 		}
 		
-		for(int i = 0; i < 3; i++){
+//		for(int i = 0; i < 3; i++){
 			
 			ShowListRunnable showListRunnable = new ShowListRunnable();
 			handlerThread = new Thread(showListRunnable);
 //			this.showListRunnables.add(handlerThread);
-			
-		}
+			handlerThread.start();
+//			
+//		}
 		
 	}
 	

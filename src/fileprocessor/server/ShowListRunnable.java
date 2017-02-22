@@ -36,6 +36,7 @@ public class ShowListRunnable implements Runnable {
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				System.out.println("servershowlist called");
 				this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -54,12 +55,17 @@ public class ShowListRunnable implements Runnable {
 			out = new ObjectOutputStream(sock.getOutputStream());
 			// Serializable
 			ListInfor retList = new ListInfor();
+			System.out.println(currentPath);
 			retList.setListInfor(dbStore.ShowList(currentPath));
+			System.out.println(dbStore.ShowList(currentPath).get(0).toString());
 			out.writeObject(retList);
+			out.flush();
+			System.out.println(retList.getListInfor().get(0).toString());
 		} catch (IOException e) {
+			System.out.println("showlistserver: "+e.getMessage());
 			e.getStackTrace();
 		} finally {
-			out.close();
+//			out.close();
 		}
 		return null;
 	}

@@ -99,7 +99,7 @@ public class MainViewController implements Initializable {
 	private Alert alertChangeName;
 
 	private List<DirFile> dirFile = new ArrayList<DirFile>();
-	private String userId = "userId";
+	private String userId = "skcc";
 	private String searchName = "serachName";
 	private String currentPath;
 	private static final String localPath = "C:\\";
@@ -127,7 +127,9 @@ public class MainViewController implements Initializable {
 
 		// 초기 로그인 시 받는 리스트
 		try {
-			dirFile = fileClient.ShowList(userId, "0");
+			System.out.println("[Client]");
+			dirFile = fileClient.ShowList(userId, "skcc");
+			System.out.println("[Client]");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -195,6 +197,16 @@ public class MainViewController implements Initializable {
 		DisplayList();
 	}
 
+	
+	// 개발자 정보 버튼 눌렀을때
+		public void handleShowDevInfo(ActionEvent e) {
+			//
+			alertDevInfo.setContentText("SKCC 4조");
+			alertDevInfo.show();
+
+		}
+	
+	
 	/**
 	 * 파일/폴더 검색 취소
 	 * 

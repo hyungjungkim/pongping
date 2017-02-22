@@ -18,10 +18,10 @@ import db.domain.PathMapping;
 public class DBStore{
 	private static final int SimpleDateFormat = 0;
 	private String userID;
-	/**객체 하나하나의 변수 (table row)*/
+	/**媛앹껜 �븯�굹�븯�굹�쓽 蹂��닔 (table row)*/
 	//   private DirFile dirFile;
 	//   private PathMapping pathMapping;
-	/**table 변수*/
+	/**table 蹂��닔*/
 	private List<DirFile> dirFileList;
 	private List<PathMapping> pathMappingList;
 
@@ -29,9 +29,9 @@ public class DBStore{
 	private File dbFile;
 	private File mappingFile;
 
-	private String root="C:\\FileServer";               //Server PC root (Client root랑 달라요) 
+	private String root="C:\\FileServer";               //Server PC root (Client root�옉 �떖�씪�슂) 
 
-	/** Store 인스턴스 (User별)*/
+	/** Store �씤�뒪�꽩�뒪 (User蹂�)*/
 	private static DBStore instance;
 
 	public static DBStore getInstance(String userId){
@@ -40,8 +40,8 @@ public class DBStore{
 	}
 
 	private DBStore(String userId){
-		//회원가입시, userID 생성 및 Server 폴더 생성 할때 : DBInfo.txt / MappingInfo.txt 도 생성해야함
-		//DBInfo.txt/ MappingInfo.txt => User에 DirFile table과 /Client-Server Path Mapping table 등이 저장되어 있음.
+		//�쉶�썝媛��엯�떆, userID �깮�꽦 諛� Server �뤃�뜑 �깮�꽦 �븷�븣 : DBInfo.txt / MappingInfo.txt �룄 �깮�꽦�빐�빞�븿
+		//DBInfo.txt/ MappingInfo.txt => User�뿉 DirFile table怨� /Client-Server Path Mapping table �벑�씠 ���옣�릺�뼱 �엳�쓬.
 		this.userID = userId;
 
 		BufferedReader br=null;
@@ -49,7 +49,8 @@ public class DBStore{
 		pathMappingList = new ArrayList<>();         
 		//DBInfo.txt load
 		try {
-			br = new BufferedReader(new FileReader(root + "\\"+ userId + "\\DBInfo.txt"));
+			System.out.println("DBStore 생성자 ");
+			br = new BufferedReader(new FileReader(root + "/"+ userId + "/DBInfo.txt"));
 			String str = null;
 			while((str = br.readLine())!=null){
 				//Parsing
@@ -349,7 +350,7 @@ public class DBStore{
 		try {
 			dbFileWriter = new FileWriter(root + "\\"+ userID + "\\DBInfo.txt");
 			for(int i=0; i<dirFileList.size();i++){
-				dbFileWriter.write(dirFileList.get(i).toString()+"\n"); //List 있는 모든 내용들을 파일에 write //DirFile, PathMapping -> toString
+				dbFileWriter.write(dirFileList.get(i).toString()+"\n"); //List �엳�뒗 紐⑤뱺 �궡�슜�뱾�쓣 �뙆�씪�뿉 write //DirFile, PathMapping -> toString
 			}
 			dbFileWriter.close();
 		} catch (IOException e) {

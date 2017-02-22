@@ -72,8 +72,8 @@ public class FileUploadRunnable implements Runnable {
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {
-			dis.close();
-			fos.close();
+//			dis.close();
+//			fos.close();
 		}
 		// current list of current depth (from DB) // only directorypath from
 		// dbstore
@@ -86,7 +86,7 @@ public class FileUploadRunnable implements Runnable {
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {
-			out.close();
+//			out.close();
 		}
 		return null;
 	}
