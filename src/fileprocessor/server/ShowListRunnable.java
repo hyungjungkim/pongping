@@ -8,18 +8,21 @@ import java.util.List;
 import db.domain.DirFile;
 import db.domain.FileInfo;
 import db.domain.ListInfor;
+import db.store.DBStore;
 
-public class ShowListRunnable implements Runnable{
+public class ShowListRunnable implements Runnable {
 	//
 	private FileInfo fileInfo = null;
 	private Socket sock = null;
 	private ObjectOutputStream out = null;
-	
-	public ShowListRunnable(FileInfo fileInfo , Socket sock){
+	private DBStore dbStore;
+
+	public ShowListRunnable(FileInfo fileInfo, Socket sock) {
 		this.fileInfo = fileInfo;
 		this.sock = sock;
+		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -30,12 +33,20 @@ public class ShowListRunnable implements Runnable{
 			e.printStackTrace();
 		}
 	}
+
 	public List<DirFile> ShowList(String userId, String currentPath) throws IOException {
-		out = new ObjectOutputStream(sock.getOutputStream());
-		// Serializable
-		ListInfor retList = new ListInfor();
-		// TODO retList.setListInfor(list);
-		out.writeObject(retList);
+		//
+		try {
+			out = new ObjectOutputStream(sock.getOutputStream());
+			// Serializable
+			ListInfor retList = new ListInfor();
+			retList.setListInfor(dbStore.ShowList(currentPath));
+			out.writeObject(retList);
+		} catch (IOException e) {
+			e.getStackTrace();
+		} finally {
+			out.close();
+		}
 		return null;
 	}
 }
