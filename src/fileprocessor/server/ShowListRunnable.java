@@ -11,42 +11,43 @@ import db.domain.ListInfor;
 import db.store.DBStore;
 
 public class ShowListRunnable implements Runnable {
-   //
-   private FileInfo fileInfo = null;
-   private Socket sock = null;
-   private ObjectOutputStream out = null;
-   private DBStore dbStore;
+	//
+	private FileInfo fileInfo = null;
+	private Socket sock = null;
+	private ObjectOutputStream out = null;
+	private DBStore dbStore;
 
-   public ShowListRunnable(FileInfo fileInfo, Socket sock) {
-      this.fileInfo = fileInfo;
-      this.sock = sock;
-      this.dbStore = DBStore.getInstance(fileInfo.getUserId());
-   }
+	public ShowListRunnable(FileInfo fileInfo, Socket sock) {
+		this.fileInfo = fileInfo;
+		this.sock = sock;
+		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+	}
 
-   @Override
-   public void run() {
-      // TODO Auto-generated method stub
-      try {
-         this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
-      } catch (IOException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-   }
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-   public List<DirFile> ShowList(String userId, String currentPath) throws IOException {
-      //
-      try {
-         out = new ObjectOutputStream(sock.getOutputStream());
-         // Serializable
-         ListInfor retList = new ListInfor();
-         retList.setListInfor(dbStore.ShowList(currentPath));
-         out.writeObject(retList);
-      } catch (IOException e) {
-         e.getStackTrace();
-      } finally {
-         out.close();
-      }
-      return null;
-   }
+	public List<DirFile> ShowList(String userId, String currentPath) throws IOException {
+		//
+		try {
+			out = new ObjectOutputStream(sock.getOutputStream());
+			// Serializable
+			ListInfor retList = new ListInfor();
+			retList.setListInfor(dbStore.ShowList(currentPath));
+			out.writeObject(retList);
+		} catch (IOException e) {
+			e.getStackTrace();
+		} finally {
+			out.close();
+		}
+		return null;
+	}
 }
+>>>>>>> d41312a50d2327bcdde8a9a31df9799a5621be86
