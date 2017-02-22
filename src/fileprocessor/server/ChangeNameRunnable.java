@@ -23,6 +23,9 @@ public class ChangeNameRunnable implements Runnable{
 	public ChangeNameRunnable(){
 		//Constructor
 		queuemanager = QueueManager.getInstance();
+		this.handleinfo = queuemanager.getCngDirNameQueue().take();
+		this.sock = this.handleinfo.getSock();
+		this.fileInfo = this.handleinfo.getFileInfo();
 	}
 	
 	@Override
@@ -30,8 +33,6 @@ public class ChangeNameRunnable implements Runnable{
 		// TODO Auto-generated method stub
 		try {
 			Thread.sleep(10);
-			handleinfo = queuemanager.getCngDirNameQueue().take();
-			this.fileInfo = handleinfo.getFileInfo();
 			this.ChangeName(fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

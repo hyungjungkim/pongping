@@ -3,37 +3,45 @@ package fileprocessor.server;
 import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
 import db.domain.DirFile;
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import network.server.QueueManager;
 
 public class FileUploadRunnable implements Runnable {
 	//
 	private FileInfo fileInfo = null;
 	private Socket sock = null;
 	private ObjectOutputStream out = null;
-	private ObjectInputStream ois = null;
 	private DataInputStream dis = null;
 	private FileOutputStream fos = null;
 	private DBStore dbStore;
+	private HandleInfo handleinfo;
+	private QueueManager queuemanager;
 
-	public FileUploadRunnable(FileInfo fileInfo, Socket sock) {
-		this.fileInfo = fileInfo;
-		this.sock = sock;
+	public FileUploadRunnable() {
+		queuemanager = QueueManager.getInstance();
+		this.handleinfo = queuemanager.getUploadQueue().take();
+		this.fileInfo = this.handleinfo.getFileInfo();
+		this.sock = this.handleinfo.getSock();
 		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 	}
 
 	@Override
 	public void run() {
 		try {
+			Thread.sleep(10);
 			this.FileUpload(this.fileInfo);
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -60,7 +68,7 @@ public class FileUploadRunnable implements Runnable {
 			dis.close();
 			fos.close();
 		}
-		// current list of current depth (from DB) // dbstore¿¡ µð·ºÅä¸®±îÁö ÁÖ±â
+		// current list of current depth (from DB) // dbstoreï¿½ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 		String parentPath = clientPath.substring(0,clientPath.lastIndexOf("/"));
 		// Serializable
 		try {
