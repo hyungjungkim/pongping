@@ -41,7 +41,6 @@ public class FileUploadRunnable implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -68,7 +67,7 @@ public class FileUploadRunnable implements Runnable {
 			dis.close();
 			fos.close();
 		}
-		// current list of current depth (from DB) // dbstore�� ���丮���� �ֱ�
+		// current list of current depth (from DB) // only directorypath from dbstore
 		String parentPath = clientPath.substring(0,clientPath.lastIndexOf("/"));
 		// Serializable
 		try {

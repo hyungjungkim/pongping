@@ -24,6 +24,7 @@ public class FileDownloadRunnable implements Runnable{
 		//
 		queuemanager = QueueManager.getInstance();
 	}
+	
 	@Override
 	public void run() {
 		//
@@ -38,7 +39,6 @@ public class FileDownloadRunnable implements Runnable{
 		}catch(IOException e){
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
