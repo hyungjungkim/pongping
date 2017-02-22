@@ -8,25 +8,33 @@ import java.util.List;
 
 import db.domain.DirFile;
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.domain.ListInfor;
+import network.server.QueueManager;
 
 public class ChangeNameRunnable implements Runnable{
 	//
 	private Socket sock = null;
 	private FileInfo fileInfo = null;
 	private ObjectOutputStream out = null;
-	public ChangeNameRunnable(FileInfo fileInfo, Socket sock){
+	private HandleInfo handleinfo;
+	private QueueManager queuemanager;
+	
+	public ChangeNameRunnable(){
 		//Constructor
-		this.sock = sock;
-		this.fileInfo = fileInfo;
+		queuemanager = QueueManager.getInstance();
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
+			Thread.sleep(10);
 			this.ChangeName(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
