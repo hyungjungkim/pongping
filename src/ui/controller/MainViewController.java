@@ -462,10 +462,10 @@ public class MainViewController implements Initializable {
 									imageview.setFitHeight(50);
 									imageview.setFitWidth(50);
 								
-									if (item == folder)
+									if (item.getFlag() == 0)
 										imageview.setImage(new Image(
 												MainViewController.class.getResource("img").toString() + "/1.jpg"));
-									else if (item == file)
+									else if (item.getFlag() == 1)
 										imageview.setImage(new Image(
 												MainViewController.class.getResource("img").toString() + "/2.jpg"));
 									else

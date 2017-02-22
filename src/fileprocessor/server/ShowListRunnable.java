@@ -10,6 +10,7 @@ import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import network.server.ProcessRouterLogic;
 import network.server.QueueManager;
 
 public class ShowListRunnable implements Runnable {
@@ -37,6 +38,7 @@ public class ShowListRunnable implements Runnable {
 				this.sock = this.handleInfo.getSock();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 				System.out.println("servershowlist called");
+				out = handleInfo.getOut();
 				this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -52,7 +54,7 @@ public class ShowListRunnable implements Runnable {
 	public List<DirFile> ShowList(String userId, String currentPath) throws IOException {
 		//
 		try {
-			out = new ObjectOutputStream(sock.getOutputStream());
+			//out = new ObjectOutputStream(sock.getOutputStream());
 			// Serializable
 			ListInfor retList = new ListInfor();
 			System.out.println(currentPath);

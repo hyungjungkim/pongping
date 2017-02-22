@@ -20,11 +20,11 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	private ServiceNum serviceNum;
 	private FileInfo fileInfo;
 	private Socket sock;
-	
+	ObjectInputStream in = null;
+	ObjectOutputStream out = null;
 	public ProcessRouterLogic(Socket sock){
 		
 		this.sock =sock;
-		
 	}
 	
 	/***
@@ -49,8 +49,8 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 	public void run() {
 		// TODO Auto-generated method stub
 		super.run();
-		ObjectInputStream in = null;
-		ObjectOutputStream out = null;
+//		ObjectInputStream in = null;
+//		ObjectOutputStream out = null;
 		try {
 			in = new ObjectInputStream(sock.getInputStream());
 			out = new ObjectOutputStream(sock.getOutputStream());
@@ -70,7 +70,7 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 				System.out.println(requestInfo.getUserId());
 				this.depacketizer(requestInfo);
 				DBStore dbstore = DBStore.getInstance(this.userId);
-				handleInfo = new HandleInfo(sock, fileInfo);
+				handleInfo = new HandleInfo(sock, fileInfo, in, out);
 				System.out.println(handleInfo.getFileInfo().getCurrentPath());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
