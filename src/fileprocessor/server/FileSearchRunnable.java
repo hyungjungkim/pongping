@@ -36,9 +36,9 @@ public class FileSearchRunnable implements Runnable {
 
 	public List<DirFile> FileSearch(String userId, String searchName) throws IOException {
 		//
-		out = new ObjectOutputStream(sock.getOutputStream());
-		// Serializable
 		try {
+			out = new ObjectOutputStream(sock.getOutputStream());
+			// Serializable
 			ListInfor retList = new ListInfor();
 			retList.setListInfor(dbStore.FileSearch(searchName));
 			out.writeObject(retList);
