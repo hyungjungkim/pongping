@@ -19,14 +19,15 @@ import network.server.ServiceNum;
 public class FileClientLogic implements FileClient {
 	//
 	// Need Default Path
-
+	
+	
 	private Socket sock;
-	DataOutputStream dos = null;
-	DataInputStream dis = null;
-	FileInputStream fis = null;
-	FileOutputStream fos = null;
-	ObjectInputStream ois = null;
-	ObjectOutputStream out = null;
+	private DataOutputStream dos = null;
+	private DataInputStream dis = null;
+	private FileInputStream fis = null;
+	private FileOutputStream fos = null;
+	private ObjectInputStream ois = null;
+	private ObjectOutputStream out = null;
 	//
 	RequestInfo rqInfo = null;
 

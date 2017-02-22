@@ -22,8 +22,8 @@ public class ShowListRunnable implements Runnable {
 	private QueueManager queuemanager;
 
 	public ShowListRunnable() {
+		//
 		queuemanager = QueueManager.getInstance();
-		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 	}
 
 	@Override
@@ -35,6 +35,7 @@ public class ShowListRunnable implements Runnable {
 				this.handleInfo = queuemanager.getShowlistQueue().take();
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
+				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 				this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
