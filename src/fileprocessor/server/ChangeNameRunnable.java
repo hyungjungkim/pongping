@@ -37,6 +37,7 @@ public class ChangeNameRunnable implements Runnable {
 				this.sock = this.handleinfo.getSock();
 				this.fileInfo = this.handleinfo.getFileInfo();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.out = this.handleinfo.getOut();
 				//
 				this.ChangeName(fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
 			} catch (IOException e) {
@@ -57,10 +58,10 @@ public class ChangeNameRunnable implements Runnable {
 		String parentPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
 		// Serializable
 		try {			
-			out = new ObjectOutputStream(sock.getOutputStream());
 			ListInfor retList = new ListInfor();
 			retList.setListInfor(dbStore.ShowList(parentPath));
 			out.writeObject(retList);
+			out.flush();
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {

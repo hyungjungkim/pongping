@@ -37,6 +37,7 @@ public class DirectoryRemoveRunnable implements Runnable {
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.out = this.handleInfo.getOut();
 				this.DirectoryRemove(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -51,7 +52,7 @@ public class DirectoryRemoveRunnable implements Runnable {
 	public List<DirFile> DirectoryRemove(String userId, String currentPath) throws IOException {
 		List<DirFile> removeFiles = dbStore.DirecotryAllRemove(currentPath);
 		if(removeFiles==null){
-			// ÇØ´ç Æú´õ »èÁ¦
+			// ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			String serverPath = dbStore.DirecotryRemove(currentPath);
 			serverFileRemove(serverPath);
 		}else{
@@ -69,10 +70,10 @@ public class DirectoryRemoveRunnable implements Runnable {
 		String parentPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
 		// Serializable
 		try {			
-			out = new ObjectOutputStream(sock.getOutputStream());
 			ListInfor retList = new ListInfor();
 			retList.setListInfor(dbStore.ShowList(parentPath));
 			out.writeObject(retList);
+			out.flush();
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {

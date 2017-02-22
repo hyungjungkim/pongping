@@ -36,6 +36,7 @@ public class FileRemoveRunnable implements Runnable {
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.out = this.handleInfo.getOut();
 				this.FileRemove(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -51,7 +52,6 @@ public class FileRemoveRunnable implements Runnable {
 		// client requesting path => to DB
 		String clientPath = currentPath;
 		String fileRemovePath = dbStore.FileRemove(clientPath); // from DB
-		out = new ObjectOutputStream(sock.getOutputStream());
 		File file = new File(fileRemovePath);
 		if (file.delete()) {
 			System.out.println(file.getName() + " is deleted!");
@@ -65,6 +65,7 @@ public class FileRemoveRunnable implements Runnable {
 			ListInfor retList = new ListInfor();
 			retList.setListInfor(dbStore.ShowList(parentPath));
 			out.writeObject(retList);
+			out.flush();
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {

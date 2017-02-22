@@ -39,6 +39,7 @@ public class FileUploadRunnable implements Runnable {
 				this.fileInfo = this.handleinfo.getFileInfo();
 				this.sock = this.handleinfo.getSock();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.out = this.handleinfo.getOut();
 				//
 				this.FileUpload(this.fileInfo);
 
@@ -56,7 +57,6 @@ public class FileUploadRunnable implements Runnable {
 		//
 		String clientPath = fileInfor.getCurrentPath();
 		String serverSavePath = dbStore.FileUpload(clientPath); // fromDBStore
-		out = new ObjectOutputStream(sock.getOutputStream());
 		byte[] contentBytes = new byte[1024];
 
 		try {
@@ -83,6 +83,7 @@ public class FileUploadRunnable implements Runnable {
 			ListInfor retList = new ListInfor();
 			retList.setListInfor(dbStore.ShowList(parentPath));
 			out.writeObject(retList);
+			out.flush();
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {

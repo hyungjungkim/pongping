@@ -37,6 +37,7 @@ public class DirectoryCreateRunnable implements Runnable {
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.out = this.handleInfo.getOut();
 				this.DirectoryCreate(this.fileInfo);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -60,11 +61,11 @@ public class DirectoryCreateRunnable implements Runnable {
 		}
 		String parentPath = clientPath.substring(0, clientPath.lastIndexOf("/"));
 		try {
-			out = new ObjectOutputStream(sock.getOutputStream());
 			// Serializable
 			ListInfor retList = new ListInfor();
 			retList.setListInfor(dbStore.ShowList(parentPath));
 			out.writeObject(retList);
+			out.flush();
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {

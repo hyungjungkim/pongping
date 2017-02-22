@@ -36,6 +36,7 @@ public class FileSearchRunnable implements Runnable {
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
 				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.out = this.handleInfo.getOut();
 				this.FileSearch(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -51,11 +52,11 @@ public class FileSearchRunnable implements Runnable {
 	public List<DirFile> FileSearch(String userId, String searchName) throws IOException {
 		//
 		try {
-			out = new ObjectOutputStream(sock.getOutputStream());
 			// Serializable
 			ListInfor retList = new ListInfor();
 			retList.setListInfor(dbStore.FileSearch(searchName));
 			out.writeObject(retList);
+			out.flush();
 		} catch (IOException e) {
 			e.getStackTrace();
 		} finally {
