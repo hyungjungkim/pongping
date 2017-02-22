@@ -30,7 +30,9 @@ public class ChangeNameRunnable implements Runnable{
 		// TODO Auto-generated method stub
 		try {
 			Thread.sleep(10);
-			this.ChangeName(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
+			handleinfo = queuemanager.getCngDirNameQueue().take();
+			this.fileInfo = handleinfo.getFileInfo();
+			this.ChangeName(fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
