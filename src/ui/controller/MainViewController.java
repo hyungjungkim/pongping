@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 import db.domain.DirFile;
+import db.domain.FileObjectIdentifier;
 import fileprocessor.client.FileClient;
 import fileprocessor.client.FileClientLogic;
 import javafx.collections.FXCollections;
@@ -73,6 +75,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private TextField textFieldSearch;
 	@FXML
+	private Button btnSearchCancel;
+	@FXML
 	private Button btnSearch;
 	@FXML
 	private Label labelCurrentPath;
@@ -99,17 +103,22 @@ public class MainViewController implements Initializable {
 	private String searchName = "serachName";
 	private String currentPath;
 	private static final String localPath = "C:\\";
-	
+
 	/**
 	 * 우측 하단 부분
 	 */
 
-	 @FXML private TableView<DirFile> tableList;
+	@FXML
+	private TableView<DirFile> tableList;
 
-	 @FXML private TableColumn<DirFile, String> tableColType;
-	 @FXML private TableColumn<DirFile, String> tableColName;
-	 @FXML private TableColumn<DirFile, String> tableColDate;
-	 @FXML private TableColumn<DirFile, String> tableColSize;
+	@FXML
+	private TableColumn<DirFile, FileObjectIdentifier> tableColType;
+	@FXML
+	private TableColumn<DirFile, String> tableColName;
+	@FXML
+	private TableColumn<DirFile, Date> tableColDate;
+	@FXML
+	private TableColumn<DirFile, String> tableColSize;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -178,7 +187,7 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @param e
 	 */
-	//완료
+	// 완료
 	public void handleSearch(ActionEvent e) {
 		try {
 			dirFile = fileClient.FileSearch(userId, searchName);
@@ -193,24 +202,36 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
+	 * 파일/폴더 검색 취소
+	 * 
+	 * @param e
+	 */
+	// 완료
+	public void handleSearchCancel(ActionEvent e) {
+		// To-do
+		textFieldSearch.setText("");
+	}
+
+	/**
 	 * 폴더 생성
+	 * 
 	 * @param e
 	 */
 	// 완료
 	public void handleCreateFolder(ActionEvent e) {
-		
+
 		String entered = "none.";
 		TextInputDialog dialog = new TextInputDialog("hi");
 		dialog.setTitle("hi");
 		dialog.setHeaderText("Change Name");
 
 		Optional<String> result = dialog.showAndWait();
-		String folderNameWithPath ="";
+		String folderNameWithPath = "";
 		if (result.isPresent()) {
 
 			folderNameWithPath = currentPath + "/" + result.get();
 		}
-		
+
 		// 중복 체크 후 이름 변경
 		if (IsExist(entered)) {
 
@@ -227,7 +248,6 @@ public class MainViewController implements Initializable {
 				e1.printStackTrace();
 			}
 
-			
 		}
 	}
 
@@ -240,35 +260,32 @@ public class MainViewController implements Initializable {
 	public void handleFileUpload(ActionEvent e) {
 		//
 		try {
-			
-			Node source = (Node) e.getSource();
-		    Window theStage = source.getScene().getWindow();
 
-			
+			Node source = (Node) e.getSource();
+			Window theStage = source.getScene().getWindow();
+
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Open Resource File");
-			fileChooser.getExtensionFilters().addAll(
-			         new ExtensionFilter("Text Files", "*.txt"),
-			         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
-			         new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
-			         new ExtensionFilter("All Files", "*.*"));
+			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+					new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+					new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+					new ExtensionFilter("All Files", "*.*"));
 			File selectedFile = fileChooser.showOpenDialog(theStage);
-			 
-			 
+
 			String localFilePath = selectedFile.getPath();
-			
+
 			String entered = "none.";
 			TextInputDialog dialog = new TextInputDialog("hi");
 			dialog.setTitle("FileUpload");
 			dialog.setHeaderText("Set Upload File Name :");
 
 			Optional<String> result = dialog.showAndWait();
-			String fileNameWithPath ="";
+			String fileNameWithPath = "";
 			if (result.isPresent()) {
 
 				fileNameWithPath = currentPath + "/" + result.get();
 			}
-			
+
 			dirFile = fileClient.FileUpload(userId, localFilePath, fileNameWithPath);
 		} catch (IOException d) {
 			d.printStackTrace();
@@ -309,8 +326,8 @@ public class MainViewController implements Initializable {
 	public void handleDelete(ActionEvent e) {
 		//
 		try {
-			//파일 이름 가져오기
-			String fileNameWithPath = get()+"/"+currentPath;
+			// 파일 이름 가져오기
+			String fileNameWithPath = get() + "/" + currentPath;
 			dirFile = fileClient.DirectoryRemove(userId, fileNameWithPath);
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -360,7 +377,7 @@ public class MainViewController implements Initializable {
 			}
 			DisplayList();
 		}
-	
+
 	}
 
 	/**
@@ -373,80 +390,106 @@ public class MainViewController implements Initializable {
 	// 현재 경로 폴더/파일 보여주기
 	public void DisplayList() {
 		//
-		
+
+		/*
+		 * To-do 참고 : dirFile list 맨 처음에 '상위폴더로 가기'를 위한 dirFile 객체를 하나 넣어주어야함
+		 * FileObjectIdentifier parent = FileObjectIdentifier.valueOf("Parent");
+		 * aa.add(new DirFile(0, "...", "1111", 100, null, parent));
+		 */
+
 		ObservableList<DirFile> observableList = FXCollections.observableArrayList(dirFile);
-		
+
 		tableList.setItems(observableList);
-		
-		//다중선택
-		//tableList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+		// 다중선택
+		// tableList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-			
-		//To-do : 수정해야할수도 있음, 특히 tableColSize 부분
+
+		// To-do : 수정해야할수도 있음, 특히 tableColSize 부분
 		tableColType.setCellValueFactory(new PropertyValueFactory<>("flag"));
 		tableColName.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 		tableColDate.setCellValueFactory(new PropertyValueFactory<>("modifiedDate"));
-		tableColSize.setCellValueFactory(new PropertyValueFactory<>("size")); 
-		
-		tableColType.setStyle( "-fx-alignment: CENTER;");
-		tableColName.setStyle( "-fx-alignment: CENTER;");
-		tableColDate.setStyle( "-fx-alignment: CENTER;");
-		tableColSize.setStyle( "-fx-alignment: CENTER;");
-		
-		// 파일유형에 이미지 넣는 코드                
-		tableColType.setCellFactory(new Callback<TableColumn<DirFile, String>,TableCell<DirFile, String>>(){        
-			@Override
-			public TableCell<DirFile, String> call(TableColumn<DirFile, String> param) {                
-				TableCell<DirFile, String> cell = new TableCell<DirFile, String>(){
-					ImageView imageview = new ImageView();
-							
-					@Override
-					public void updateItem(String item, boolean empty) {                        
-						if(item!=null){                            
-							HBox box= new HBox();
-							box.setSpacing(10) ;
-							VBox vbox = new VBox();
-							
-							box.setStyle( "-fx-alignment: CENTER;");
-									
-							imageview.setFitHeight(50);
-							imageview.setFitWidth(50);
-							imageview.setImage(new Image(MainViewController.class.getResource("img").toString()+"/1.jpg")); 
+		tableColSize.setCellValueFactory(new PropertyValueFactory<>("size"));
 
-							box.getChildren().addAll(imageview,vbox); 
-							setGraphic(box); //SETTING ALL THE GRAPHICS COMPONENT FOR CELL
-						}
+		tableColType.setStyle("-fx-alignment: CENTER;");
+		tableColName.setStyle("-fx-alignment: CENTER;");
+		tableColDate.setStyle("-fx-alignment: CENTER;");
+		tableColSize.setStyle("-fx-alignment: CENTER;");
+
+		// 파일유형에 이미지 넣는 코드
+		tableColType.setCellFactory(
+				new Callback<TableColumn<DirFile, FileObjectIdentifier>, TableCell<DirFile, FileObjectIdentifier>>() {
+					@Override
+					public TableCell<DirFile, FileObjectIdentifier> call(
+							TableColumn<DirFile, FileObjectIdentifier> param) {
+						TableCell<DirFile, FileObjectIdentifier> cell = new TableCell<DirFile, FileObjectIdentifier>() {
+							ImageView imageview = new ImageView();
+
+							int i = 0;
+
+							@Override
+							public void updateItem(FileObjectIdentifier item, boolean empty) {
+								if (item != null) {
+									HBox box = new HBox();
+									box.setSpacing(10);
+									VBox vbox = new VBox();
+								
+									box.setStyle("-fx-alignment: CENTER;");
+
+									imageview.setFitHeight(50);
+									imageview.setFitWidth(50);
+								
+									if (item == folder)
+										imageview.setImage(new Image(
+												MainViewController.class.getResource("img").toString() + "/1.jpg"));
+									else if (item == file)
+										imageview.setImage(new Image(
+												MainViewController.class.getResource("img").toString() + "/2.jpg"));
+									else
+										imageview.setImage(new Image(
+												MainViewController.class.getResource("img").toString() + "/3.jpg"));
+
+									box.getChildren().addAll(imageview, vbox);
+									
+									setGraphic(box);
+								}
+							}
+						};
+						return cell;
 					}
-				};
-				//System.out.println(cell.getIndex());    			
-				return cell;
-			}
-		});
-		
+				});
+
 		// row 더블클릭 코드
-		tableList.setRowFactory( tv -> {
-		    TableRow<DirFile> row = new TableRow<DirFile>();
-		    
-		   
-		    row.setOnMouseClicked(event -> {
-		        if (event.getClickCount() == 2 && (! row.isEmpty())  ) {
-		        	
-		        	TablePosition pos = tableList.getSelectionModel().getSelectedCells().get(0);
-		         	int t_row = pos.getRow();
-		         	DirFile item = tableList.getItems().get(t_row);
-		         	TableColumn col = pos.getTableColumn();
-		 		    
-		 		    if(col.getId().equals("tableColName")) {
-		 		    	String data = (String) col.getCellObservableValue(item).getValue();
-			        	
-		 		    	DirFile rowData = row.getItem();
-			            //System.out.println(rowData + "---" + data);
-		 		    }
-		        }
-		    });
-		    return row ;
+		tableList.setRowFactory(tv ->
+		{
+			TableRow<DirFile> row = new TableRow<DirFile>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+
+					TablePosition pos = tableList.getSelectionModel().getSelectedCells().get(0);
+					int t_row = pos.getRow();
+					DirFile item = tableList.getItems().get(t_row);
+					TableColumn col = pos.getTableColumn();
+
+					if (col.getId().equals("tableColName")) {
+						String data = (String) col.getCellObservableValue(item).getValue();
+
+						if ("...".equals(data)) {
+							System.out.println("상위로 이동");
+						} else {
+							DirFile rowData = row.getItem();
+							System.out.println(rowData + "---" + data);
+						}
+
+					}
+
+				}
+			});
+
+			return row;
 		});
-	
+
+
 	}
 
 	/**
@@ -454,10 +497,10 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @return
 	 */
-	//Todo
+	// Todo
 	public boolean IsExist(String name) {
 		// 만약 폴더 혹은 파일 이름이랑 같으면 showlist 반환값의 끄트머리랑 비교
-		
+
 		return false;
 	}
 
@@ -500,11 +543,11 @@ public class MainViewController implements Initializable {
 		}
 		DisplayList();
 	}
-	
+
 	/**
 	 * 검색 후 다운로드
 	 */
-	public void SearchedFileDownload(){
-		
+	public void SearchedFileDownload() {
+
 	}
 }

@@ -19,7 +19,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="800.0" prefWidth="1000.0">
          <children>
-            <TextField fx:id="textFieldSearch" layoutY="27.0" prefHeight="42.0" prefWidth="856.0" />
+            <TextField fx:id="textFieldSearch" layoutY="27.0" prefHeight="42.0" prefWidth="856.0" promptText="검색하세요" />
             <Label fx:id="labelCurrentPath" layoutX="22.0" layoutY="96.0" prefHeight="42.0" prefWidth="536.0" text="현재 경로 나타내기" />
             <Button fx:id="btnSearch" layoutX="898.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleSearch" text="검색" />
             <Button fx:id="btnCreateFolder" layoutX="614.0" layoutY="106.0" mnemonicParsing="false" onAction="#handleCreateFolder" text="폴더생성" />
@@ -35,6 +35,7 @@
                   <TableColumn fx:id="tableColSize" prefWidth="181.0" text="크기" />
               </columns>
             </TableView>
+            <Button fx:id="btnSearchCancel" layoutX="820.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleSearchCancel" text="X" />
          </children>
       </AnchorPane>
    </children>
