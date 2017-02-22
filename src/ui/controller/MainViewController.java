@@ -144,15 +144,9 @@ public class MainViewController implements Initializable {
 	 */
 
 	public MainViewController() {
-		//
-		// 소켓 생성 후 socket()에 IP 주소 넣기
-		try {
-			TCPReactor tcpReactor = new TCPReactor("123.456.789.0", 9999);
-			Socket soc = tcpReactor.getSocket();
-			fileClient = new FileClientLogic(soc);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		TCPReactor tcpReactor = new TCPReactor("127.0.0.1", 9900);
+		Socket soc = tcpReactor.getSocket();
+		fileClient = new FileClientLogic(soc);
 
 	}
 
@@ -289,6 +283,9 @@ public class MainViewController implements Initializable {
 			dirFile = fileClient.FileUpload(userId, localFilePath, fileNameWithPath);
 		} catch (IOException d) {
 			d.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		DisplayList();
 	}
@@ -301,6 +298,7 @@ public class MainViewController implements Initializable {
 	// 완료
 	public void handleFileDownload(ActionEvent e) {
 
+		/*
 		boolean isFileDownload = false;
 		try {
 			String localFilePath = selectedFile.getPath();
@@ -315,6 +313,7 @@ public class MainViewController implements Initializable {
 		} else {
 			System.out.println("파일 다운로드 실패");
 		}
+		*/
 	}
 
 	/**
@@ -325,6 +324,7 @@ public class MainViewController implements Initializable {
 
 	public void handleDelete(ActionEvent e) {
 		//
+		/*
 		try {
 			// 파일 이름 가져오기
 			String fileNameWithPath = get() + "/" + currentPath;
@@ -336,7 +336,7 @@ public class MainViewController implements Initializable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+	*/
 		DisplayList();
 	}
 
@@ -397,10 +397,17 @@ public class MainViewController implements Initializable {
 		 * dirFile.add(0, new DirFile(0, "...", "1111", 100, null, parent));
 		 */
 		
+		/*
 		if(currentPath != userId) {
 			dirFile.add(0, new DirFile(0, "...", "1111", 100, "", 0,"1111"));
 		}
+		*/
 
+		FileObjectIdentifier folder = FileObjectIdentifier.valueOf("Folder");
+		FileObjectIdentifier file = FileObjectIdentifier.valueOf("File");
+		FileObjectIdentifier parent = FileObjectIdentifier.valueOf("Parent");
+		
+		
 		ObservableList<DirFile> observableList = FXCollections.observableArrayList(dirFile);
 
 		tableList.setItems(observableList);
@@ -474,17 +481,20 @@ public class MainViewController implements Initializable {
 					int t_row = pos.getRow();
 					DirFile item = tableList.getItems().get(t_row);
 					TableColumn col = pos.getTableColumn();
+					
+					//
+					
 
 					if (col.getId().equals("tableColName")) {
 						String data = (String) col.getCellObservableValue(item).getValue();
 						
 						
-						if(item.getFlag() == folder) {
+						if(item.getFlag() == 1) {
 							System.out.println("하위폴더로 이동");
 							
 							//Forword();
 						}
-						else if(item.getFlag() == parent) {
+						else if(item.getFlag() == 2) {
 							System.out.println("상위폴더로 이동");
 							//Back();
 							
