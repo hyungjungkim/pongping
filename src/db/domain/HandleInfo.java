@@ -13,5 +13,23 @@ public class HandleInfo {
 		this.fileInfo = fileInfo;
 		
 	}
+
+	public Socket getSock() {
+		return sock;
+	}
+
+	public FileInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setSock(Socket sock) {
+		this.sock = sock;
+	}
+
+	public void setFileInfo(FileInfo fileInfo) {
+		this.fileInfo = fileInfo;
+	}
+	
+	
 	
 }

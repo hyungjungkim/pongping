@@ -31,6 +31,8 @@ public class TCPReactorLogic implements TCPReactor {
 				Socket sock = this.servSock.accept();
 				ProcessRouterLogic processRouterLogic = new ProcessRouterLogic(sock);
 				
+				Thread processRouterThread = new Thread(processRouterLogic);
+				processRouterThread.start();
 				
 			}
 			
