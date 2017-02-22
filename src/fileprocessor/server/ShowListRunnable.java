@@ -7,8 +7,10 @@ import java.util.List;
 
 import db.domain.DirFile;
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import network.server.QueueManager;
 
 public class ShowListRunnable implements Runnable {
 	//
@@ -16,21 +18,32 @@ public class ShowListRunnable implements Runnable {
 	private Socket sock = null;
 	private ObjectOutputStream out = null;
 	private DBStore dbStore;
+	private HandleInfo handleInfo;
+	private QueueManager queuemanager;
 
-	public ShowListRunnable(FileInfo fileInfo, Socket sock) {
-		this.fileInfo = fileInfo;
-		this.sock = sock;
+	public ShowListRunnable() {
+		queuemanager = QueueManager.getInstance();
 		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		try {
-			this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (true) {
+			try {
+				Thread.sleep(10);
+				this.handleInfo = queuemanager.getShowlistQueue().take();
+				this.fileInfo = this.handleInfo.getFileInfo();
+				this.sock = this.handleInfo.getSock();
+				this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				// TODO Stop
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -50,4 +63,3 @@ public class ShowListRunnable implements Runnable {
 		return null;
 	}
 }
->>>>>>> d41312a50d2327bcdde8a9a31df9799a5621be86
