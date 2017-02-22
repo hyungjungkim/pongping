@@ -31,8 +31,6 @@ public class DBStore{
 	public final String DBInfo ="DBInfo.txt";
 
 	public DBStore(String userId){
-		//�쉶�썝媛��엯�떆, userID �깮�꽦 諛� Server �뤃�뜑 �깮�꽦 �븷�븣 : DBInfo.txt / MappingInfo.txt �룄 �깮�꽦�빐�빞�븿
-		//DBInfo.txt/ MappingInfo.txt => User�뿉 DirFile table怨� /Client-Server Path Mapping table �벑�씠 ���옣�릺�뼱 �엳�쓬.
 		this.userID = userId;
 
 		BufferedReader br=null;
@@ -122,7 +120,7 @@ public class DBStore{
 		PathMapping pathMapping = new PathMapping(dirFile.getIndex(), userID, dirFile.getFileName(),newFileName, serverPath);
 		pathMappingList.add(pathMapping);
 		
-		//updateDBFile(dirFile, pathMapping); //dbFile update
+		updateInfoFile(dirFile, pathMapping);//dbFile update
 
 		//System.out.println("DBStore FileUpload Return : "+serverPath);
 		return serverPath;
@@ -159,7 +157,7 @@ public class DBStore{
 							break;
 						}
 					}
-
+					writeInfoFile(); 			// Write Info Files.
 					return serverPath;
 				}
 			}
@@ -197,13 +195,12 @@ public class DBStore{
 		PathMapping pathMapping = new PathMapping(dirFile.getIndex(), userID, dirFile.getFileName(), serverFileName, serverPath );
 		pathMappingList.add(pathMapping);
 		
-		//updateDBFile(dirFile, pathMapping);
+		updateInfoFile(dirFile, pathMapping);
 
 		return serverPath;
 	}
 
-	public String ChangeName(String filePath, String newName){
-		String serverPath="";
+	public void ChangeName(String filePath, String newName){
 		int index =0;
 		for(DirFile d : dirFileList){
 			if(filePath.equals(d.getClientPath())){
@@ -217,16 +214,9 @@ public class DBStore{
 				}
 				newclientPath += newName;
 				d.setClientPath(newclientPath);
+				writeInfoFile();
 			}
 		}
-		for(PathMapping p: pathMappingList){
-			if(p.getDirIdx() == index){
-				p.setOriginFileName(newName);
-				serverPath = p.getServerPath();
-			}
-		}
-
-		return serverPath;
 	}
 
 	public List<DirFile> DirecotryAllRemove(String filePath){
@@ -265,7 +255,7 @@ public class DBStore{
 							break;
 						}
 					}
-
+					writeInfoFile();
 					return serverPath;
 				}
 			}
@@ -306,9 +296,10 @@ public class DBStore{
 		}
 		return parentIdx;
 	}
-
-	private void updateDBFile(DirFile dirFile, PathMapping pathMapping) {
-
+	
+	// if create File or folder
+	private void updateInfoFile(DirFile dirFile, PathMapping pathMapping) {
+		
 		FileWriter dbFileWriter;
 		FileWriter pathFileWriter;
 
@@ -321,7 +312,6 @@ public class DBStore{
 			e.printStackTrace();
 		}
 
-
 		try {
 			pathFileWriter = new FileWriter(root + "\\"+ userID + "\\"+MAPPINGInfo, true);
 			pathFileWriter.write(dirFile.toString());
@@ -333,7 +323,8 @@ public class DBStore{
 
 	}
 
-	public void updateNewFile() {
+	// if delete file of remove Dir (changeName), Write Info Files
+	public void writeInfoFile() {
 
 		FileWriter dbFileWriter;
 		FileWriter pathFileWriter;

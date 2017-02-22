@@ -8,6 +8,14 @@ public class User {
 	/** user pw*/
 	private String password;
 	
+	public User(String id, String password){
+		this.id = id;
+		this.password = password;
+	}
+	public User(String id, String password, String name){
+		this(id, password);
+		this.name = name;
+	}
 	
 	public String getId() {
 		return id;
