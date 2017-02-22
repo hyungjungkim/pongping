@@ -20,6 +20,7 @@ public class FileClientLogic implements FileClient {
 	//
 	// Need Default Path
 	
+	private static String defaultPath = "C:\\Users\\Administrator\\Desktop\\fileServer";
 	
 	private Socket sock;
 	private DataOutputStream dos = null;
@@ -96,7 +97,8 @@ public class FileClientLogic implements FileClient {
 		byte[] contentBytes = new byte[1024];
 		try {
 			dis = new DataInputStream(sock.getInputStream());
-			fos = new FileOutputStream(localPath);
+			// defaultPath + fileName
+			fos = new FileOutputStream(defaultPath+localPath.substring(localPath.lastIndexOf("/"), localPath.length()));
 			while (true) {
 				int count = dis.read(contentBytes);
 
