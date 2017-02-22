@@ -1,6 +1,6 @@
 package ui.controller;
 
-import java.io.File;
+import java.io.File; 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
@@ -47,7 +47,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Callback;
-import network.server.TCPReactor;
+import network.client.TCPReactor;
 
 /**
  * MainView 이벤트핸들러
@@ -148,7 +148,7 @@ public class MainViewController implements Initializable {
 		// 소켓 생성 후 socket()에 IP 주소 넣기
 		try {
 			TCPReactor tcpReactor = new TCPReactor("123.456.789.0", 9999);
-			Socket soc = tcpReactor.getClient();
+			Socket soc = tcpReactor.getSocket();
 			fileClient = new FileClientLogic(soc);
 		} catch (IOException e) {
 			e.printStackTrace();
