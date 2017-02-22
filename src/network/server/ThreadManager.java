@@ -38,55 +38,55 @@ public class ThreadManager {
 			
 			DirectoryCreateRunnable directoryCreateRunnable = new DirectoryCreateRunnable();
 			handlerThread = new Thread(directoryCreateRunnable);
-			this.changeNameRunnables.add(handlerThread);
+			this.directoryCreateRunnables.add(handlerThread);
 			
 		}
 		
 		for(int i = 0; i < 3; i++){
 			
-			ChangeNameRunnable changeNameRunnable = new ChangeNameRunnable();
-			handlerThread = new Thread(changeNameRunnable);
-			this.changeNameRunnables.add(handlerThread);
+			DirectoryRemoveRunnable directoryRemoveRunnable = new DirectoryRemoveRunnable();
+			handlerThread = new Thread(directoryRemoveRunnable);
+			this.directoryRemoveRunnables.add(handlerThread);
 			
 		}
 		
 		for(int i = 0; i < 3; i++){
 			
-			ChangeNameRunnable changeNameRunnable = new ChangeNameRunnable();
-			handlerThread = new Thread(changeNameRunnable);
-			this.changeNameRunnables.add(handlerThread);
+			FileDownloadRunnable fileDownloadRunnable = new FileDownloadRunnable();
+			handlerThread = new Thread(fileDownloadRunnable);
+			this.fileDownloadRunnables.add(handlerThread);
 			
 		}
 		
 		for(int i = 0; i < 3; i++){
 			
-			ChangeNameRunnable changeNameRunnable = new ChangeNameRunnable();
-			handlerThread = new Thread(changeNameRunnable);
-			this.changeNameRunnables.add(handlerThread);
+			FileRemoveRunnable fileRemoveRunnable = new FileRemoveRunnable();
+			handlerThread = new Thread(fileRemoveRunnable);
+			this.fileRemoveRunnables.add(handlerThread);
 			
 		}
 		
 		for(int i = 0; i < 3; i++){
 			
-			ChangeNameRunnable changeNameRunnable = new ChangeNameRunnable();
-			handlerThread = new Thread(changeNameRunnable);
-			this.changeNameRunnables.add(handlerThread);
+			FileSearchRunnable fileSearchRunnable = new FileSearchRunnable();
+			handlerThread = new Thread(fileSearchRunnable);
+			this.fileSearchRunnables.add(handlerThread);
 			
 		}
 		
 		for(int i = 0; i < 3; i++){
 			
-			ChangeNameRunnable changeNameRunnable = new ChangeNameRunnable();
-			handlerThread = new Thread(changeNameRunnable);
-			this.changeNameRunnables.add(handlerThread);
+			FileUploadRunnable fileUploadRunnable = new FileUploadRunnable();
+			handlerThread = new Thread(fileUploadRunnable);
+			this.fileUploadRunnables.add(handlerThread);
 			
 		}
 		
 		for(int i = 0; i < 3; i++){
 			
-			ChangeNameRunnable changeNameRunnable = new ChangeNameRunnable();
-			handlerThread = new Thread(changeNameRunnable);
-			this.changeNameRunnables.add(handlerThread);
+			ShowListRunnable showListRunnable = new ShowListRunnable();
+			handlerThread = new Thread(showListRunnable);
+			this.showListRunnables.add(handlerThread);
 			
 		}
 		
