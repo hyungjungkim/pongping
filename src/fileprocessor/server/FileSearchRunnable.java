@@ -7,8 +7,10 @@ import java.util.List;
 
 import db.domain.DirFile;
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import network.server.QueueManager;
 
 public class FileSearchRunnable implements Runnable {
 	//
@@ -16,21 +18,33 @@ public class FileSearchRunnable implements Runnable {
 	private Socket sock = null;
 	private ObjectOutputStream out = null;
 	private DBStore dbStore;
+	private HandleInfo handleInfo;
+	private QueueManager queuemanager;
 
-	public FileSearchRunnable(FileInfo fileInfo, Socket sock) {
-		this.fileInfo = fileInfo;
-		this.sock = sock;
-		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+	public FileSearchRunnable() {
+		//
+		queuemanager = QueueManager.getInstance();
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		try {
-			this.FileSearch(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (true) {
+			try {
+				Thread.sleep(10);
+				this.handleInfo = queuemanager.getSearchQueue().take();
+				this.fileInfo = this.handleInfo.getFileInfo();
+				this.sock = this.handleInfo.getSock();
+				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.FileSearch(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				// TODO Stop()
+				e.printStackTrace();
+			}
 		}
 	}
 

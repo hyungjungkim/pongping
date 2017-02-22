@@ -10,7 +10,7 @@ import db.domain.HandleInfo;
 import db.store.DBStore;
 import network.server.QueueManager;
 
-public class FileDownloadRunnable implements Runnable{
+public class FileDownloadRunnable implements Runnable {
 	//
 	private FileInfo fileInfo = null;
 	private Socket sock = null;
@@ -19,29 +19,33 @@ public class FileDownloadRunnable implements Runnable{
 	private DBStore dbStore;
 	private QueueManager queuemanager;
 	private HandleInfo handleInfo;
-	
-	public FileDownloadRunnable(){
+
+	public FileDownloadRunnable() {
 		//
 		queuemanager = QueueManager.getInstance();
 	}
-	
+
 	@Override
 	public void run() {
 		//
-		try{
-			Thread.sleep(10);
-			this.handleInfo = queuemanager.getDownloadQueue().take();
-			this.fileInfo = this.handleInfo.getFileInfo();
-			this.sock = this.handleInfo.getSock();
-			this.dbStore = DBStore.getInstance(this.fileInfo.getUserId());
-			//
-			this.FileDownload(this.fileInfo);
-			
-		}catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (true) {
+			try {
+				Thread.sleep(10);
+				this.handleInfo = queuemanager.getDownloadQueue().take();
+				this.fileInfo = this.handleInfo.getFileInfo();
+				this.sock = this.handleInfo.getSock();
+				this.dbStore = DBStore.getInstance(this.fileInfo.getUserId());
+				//
+				this.FileDownload(this.fileInfo);
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				// TODO stop()
+				e.printStackTrace();
+			}
 		}
 	}
+
 	public void FileDownload(FileInfo fileInfor) {
 		// client requesting path => to DB
 		String clientPath = fileInfor.getCurrentPath();

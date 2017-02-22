@@ -32,25 +32,27 @@ public class FileUploadRunnable implements Runnable {
 	@Override
 	public void run() {
 		//
-		try {
-			Thread.sleep(10);
-			this.handleinfo = queuemanager.getUploadQueue().take();
-			this.fileInfo = this.handleinfo.getFileInfo();
-			this.sock = this.handleinfo.getSock();
-			this.dbStore = DBStore.getInstance(fileInfo.getUserId());
-			//
-			this.FileUpload(this.fileInfo);
+		while (true) {
+			try {
+				Thread.sleep(10);
+				this.handleinfo = queuemanager.getUploadQueue().take();
+				this.fileInfo = this.handleinfo.getFileInfo();
+				this.sock = this.handleinfo.getSock();
+				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				//
+				this.FileUpload(this.fileInfo);
 
-		}catch(IOException e1){
-			e1.printStackTrace();
-		}
-		catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				//TODO stop
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public List<DirFile> FileUpload(FileInfo fileInfor) throws IOException{
+	public List<DirFile> FileUpload(FileInfo fileInfor) throws IOException {
 		//
 		String clientPath = fileInfor.getCurrentPath();
 		String serverSavePath = dbStore.FileUpload(clientPath); // fromDBStore
@@ -73,8 +75,9 @@ public class FileUploadRunnable implements Runnable {
 			dis.close();
 			fos.close();
 		}
-		// current list of current depth (from DB) // only directorypath from dbstore
-		String parentPath = clientPath.substring(0,clientPath.lastIndexOf("/"));
+		// current list of current depth (from DB) // only directorypath from
+		// dbstore
+		String parentPath = clientPath.substring(0, clientPath.lastIndexOf("/"));
 		// Serializable
 		try {
 			ListInfor retList = new ListInfor();

@@ -8,52 +8,68 @@ import java.util.List;
 
 import db.domain.DirFile;
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import network.server.QueueManager;
 
-public class FileRemoveRunnable implements Runnable{
+public class FileRemoveRunnable implements Runnable {
 	//
 	private FileInfo fileInfo = null;
 	private Socket sock = null;
 	private ObjectOutputStream out = null;
 	private DBStore dbStore;
-	
-	public FileRemoveRunnable(FileInfo fileInfo, Socket sock){
-		this.fileInfo = fileInfo;
-		this.sock = sock;
-		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+	private HandleInfo handleInfo;
+	private QueueManager queuemanager;
+
+	public FileRemoveRunnable() {
+		queuemanager = QueueManager.getInstance();
+
 	}
+
 	@Override
 	public void run() {
-		try {
-			this.FileRemove(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
-		} catch (IOException e) {
-			e.printStackTrace();
+		while (true) {
+			try {
+				Thread.sleep(10);
+				this.handleInfo = queuemanager.getRmvFileQueue().take();
+				this.fileInfo = this.handleInfo.getFileInfo();
+				this.sock = this.handleInfo.getSock();
+				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.FileRemove(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				// TODO Stop()
+				e.printStackTrace();
+			}
 		}
 	}
+
 	public List<DirFile> FileRemove(String userId, String currentPath) throws IOException {
 		// client requesting path => to DB
 		String clientPath = currentPath;
 		String fileRemovePath = dbStore.FileRemove(clientPath); // from DB
 		out = new ObjectOutputStream(sock.getOutputStream());
 		File file = new File(fileRemovePath);
-		if(file.delete()){
+		if (file.delete()) {
 			System.out.println(file.getName() + " is deleted!");
-		}else{
+		} else {
 			System.out.println("Delete operation is failed.");
 		}
 		// current list of current depth (from DB)
 		String parentPath = clientPath.substring(0, clientPath.lastIndexOf("/"));
 		// Serializable
-				try {
-					ListInfor retList = new ListInfor();
-					retList.setListInfor(dbStore.ShowList(parentPath));
-					out.writeObject(retList);
-				} catch (IOException e) {
-					e.getStackTrace();
-				} finally {
-					out.close();
-				}
+		try {
+			ListInfor retList = new ListInfor();
+			retList.setListInfor(dbStore.ShowList(parentPath));
+			out.writeObject(retList);
+		} catch (IOException e) {
+			e.getStackTrace();
+		} finally {
+			out.close();
+		}
 		return null;
 	}
 }
