@@ -18,10 +18,7 @@ import db.domain.PathMapping;
 public class DBStore{
 	private static final int SimpleDateFormat = 0;
 	private String userID;
-	/**媛앹껜 �븯�굹�븯�굹�쓽 蹂��닔 (table row)*/
-	//   private DirFile dirFile;
-	//   private PathMapping pathMapping;
-	/**table 蹂��닔*/
+	/**table */
 	private List<DirFile> dirFileList;
 	private List<PathMapping> pathMappingList;
 
@@ -29,17 +26,11 @@ public class DBStore{
 	private File dbFile;
 	private File mappingFile;
 
-	private String root="C:\\FileServer";               //Server PC root (Client root�옉 �떖�씪�슂) 
+	private final String root="C:\\FileServer";               //Server PC root
+	public final String MAPPINGInfo = "MappingInfo.txt";
+	public final String DBInfo ="DBInfo.txt";
 
-	/** Store �씤�뒪�꽩�뒪 (User蹂�)*/
-	private static DBStore instance;
-
-	public static DBStore getInstance(String userId){
-		instance = new DBStore(userId);
-		return instance;
-	}
-
-	private DBStore(String userId){
+	public DBStore(String userId){
 		//�쉶�썝媛��엯�떆, userID �깮�꽦 諛� Server �뤃�뜑 �깮�꽦 �븷�븣 : DBInfo.txt / MappingInfo.txt �룄 �깮�꽦�빐�빞�븿
 		//DBInfo.txt/ MappingInfo.txt => User�뿉 DirFile table怨� /Client-Server Path Mapping table �벑�씠 ���옣�릺�뼱 �엳�쓬.
 		this.userID = userId;
@@ -50,7 +41,7 @@ public class DBStore{
 		//DBInfo.txt load
 		try {
 			System.out.println("DBStore 생성자 ");
-			br = new BufferedReader(new FileReader(root + "/"+ userId + "/DBInfo.txt"));
+			br = new BufferedReader(new FileReader(root + "/"+ userId + "/"+DBInfo));
 			String str = null;
 			while((str = br.readLine())!=null){
 				//Parsing
@@ -74,7 +65,7 @@ public class DBStore{
 
 		//MappingInfo.txt load
 		try {
-			br = new BufferedReader(new FileReader(root+ "\\"+ userId + "\\MappingInfo.txt"));         
+			br = new BufferedReader(new FileReader(root+ "\\"+ userId + "\\"+MAPPINGInfo));         
 			String str = null;
 			while((str = br.readLine())!=null){
 				//Parsing
@@ -322,7 +313,7 @@ public class DBStore{
 		FileWriter pathFileWriter;
 
 		try {
-			dbFileWriter = new FileWriter(root + "\\"+ userID + "\\DBInfo.txt", true);
+			dbFileWriter = new FileWriter(root + "\\"+ userID + "\\"+DBInfo, true);
 			dbFileWriter.write(dirFile.toString());
 			dbFileWriter.close();
 		} catch (IOException e) {
@@ -332,7 +323,7 @@ public class DBStore{
 
 
 		try {
-			pathFileWriter = new FileWriter(root + "\\"+ userID + "\\MappingInfo.txt", true);
+			pathFileWriter = new FileWriter(root + "\\"+ userID + "\\"+MAPPINGInfo, true);
 			pathFileWriter.write(dirFile.toString());
 			pathFileWriter.close();
 		} catch (IOException e) {
@@ -348,7 +339,7 @@ public class DBStore{
 		FileWriter pathFileWriter;
 
 		try {
-			dbFileWriter = new FileWriter(root + "\\"+ userID + "\\DBInfo.txt");
+			dbFileWriter = new FileWriter(root + "\\"+ userID + "\\"+DBInfo);
 			for(int i=0; i<dirFileList.size();i++){
 				dbFileWriter.write(dirFileList.get(i).toString()+"\n"); //List �엳�뒗 紐⑤뱺 �궡�슜�뱾�쓣 �뙆�씪�뿉 write //DirFile, PathMapping -> toString
 			}
@@ -360,7 +351,7 @@ public class DBStore{
 
 
 		try {
-			pathFileWriter = new FileWriter(root + "\\"+ userID + "\\MappingInfo.txt");
+			pathFileWriter = new FileWriter(root + "\\"+ userID + "\\"+MAPPINGInfo);
 			for(int i=0; i<pathMappingList.size(); i++){
 				pathFileWriter.write(pathMappingList.get(i).toString()+"\n");
 			}
@@ -377,7 +368,7 @@ public class DBStore{
 		BufferedReader pathFileReader;
 
 		try {
-			dbFileReader = new BufferedReader(new FileReader(root + "\\"+ userID + "\\DBInfo.txt"));
+			dbFileReader = new BufferedReader(new FileReader(root + "\\"+ userID + "\\"+DBInfo));
 			String str="";
 			while((str=dbFileReader.readLine())!=null){
 				System.out.println("DBInfo File : "+str);
@@ -388,7 +379,7 @@ public class DBStore{
 		System.out.println();
 		
 		try {
-			pathFileReader = new BufferedReader(new FileReader(root + "\\"+ userID + "\\MappingInfo.txt"));
+			pathFileReader = new BufferedReader(new FileReader(root + "\\"+ userID + "\\"+MAPPINGInfo));
 			String str="";
 			while((str=pathFileReader.readLine())!=null){
 				System.out.println("MappingInfo File : "+str);
