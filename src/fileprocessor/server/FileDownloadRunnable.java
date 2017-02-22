@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 import db.domain.FileInfo;
+import db.domain.HandleInfo;
 import db.store.DBStore;
+import network.server.QueueManager;
 
 public class FileDownloadRunnable implements Runnable{
 	//
@@ -15,17 +17,28 @@ public class FileDownloadRunnable implements Runnable{
 	private DataOutputStream dos = null;
 	private FileInputStream fis = null;
 	private DBStore dbStore;
+	private QueueManager queuemanager;
+	private HandleInfo handleInfo;
 	
-	public FileDownloadRunnable(FileInfo fileInfo , Socket sock){
-		this.fileInfo = fileInfo;
-		this.sock = sock;
-		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+	public FileDownloadRunnable(){
+		//
+		queuemanager = QueueManager.getInstance();
 	}
 	@Override
 	public void run() {
+		//
 		try{
+			Thread.sleep(10);
+			this.handleInfo = queuemanager.getDownloadQueue().take();
+			this.fileInfo = this.handleInfo.getFileInfo();
+			this.sock = this.handleInfo.getSock();
+			this.dbStore = DBStore.getInstance(this.fileInfo.getUserId());
+			//
 			this.FileDownload(this.fileInfo);
 		}catch(IOException e){
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

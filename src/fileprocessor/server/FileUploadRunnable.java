@@ -27,16 +27,16 @@ public class FileUploadRunnable implements Runnable {
 
 	public FileUploadRunnable() {
 		queuemanager = QueueManager.getInstance();
-		this.handleinfo = queuemanager.getUploadQueue().take();
-		this.fileInfo = this.handleinfo.getFileInfo();
-		this.sock = this.handleinfo.getSock();
-		this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 	}
 
 	@Override
 	public void run() {
 		try {
 			Thread.sleep(10);
+			this.handleinfo = queuemanager.getUploadQueue().take();
+			this.fileInfo = this.handleinfo.getFileInfo();
+			this.sock = this.handleinfo.getSock();
+			this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 			this.FileUpload(this.fileInfo);
 		} catch (IOException e) {
 			e.printStackTrace();
