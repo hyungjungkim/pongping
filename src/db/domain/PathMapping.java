@@ -63,6 +63,11 @@ public class PathMapping {
 	}
 
 	
+	@Override
+	public String toString() {
+		return (getDirIdx()+","+getUserId()+","+getOriginFileName()+","+getServerFileName()+","+getServerPath());
+	}
+
 	public void print() {
 		System.out.println("PathMapping [userId=" + userId + ", originFileName=" + originFileName + ", serverPath=" + serverPath
 				 + ", getUserId()=" + getUserId() + ", getOriginFileName()="

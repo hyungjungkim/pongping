@@ -89,6 +89,11 @@ public class DirFile {
 		return clientPath;
 	}
 
+	@Override
+	public String toString() {
+		return (getIndex()+","+getFileName()+","+getUserId()+","+getParentDirIdx()+","+getModifiedDate()+","+getFlag()+","+getClientPath());
+	}
+
 	public void setClientPath(String clientPath) {
 		this.clientPath = clientPath;
 	}
