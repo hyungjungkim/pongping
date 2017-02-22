@@ -24,6 +24,7 @@ public class FileDownloadRunnable implements Runnable{
 		//
 		queuemanager = QueueManager.getInstance();
 	}
+	
 	@Override
 	public void run() {
 		//
@@ -35,6 +36,7 @@ public class FileDownloadRunnable implements Runnable{
 			this.dbStore = DBStore.getInstance(this.fileInfo.getUserId());
 			//
 			this.FileDownload(this.fileInfo);
+			
 		}catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -40,6 +40,7 @@ public class FileUploadRunnable implements Runnable {
 			this.dbStore = DBStore.getInstance(fileInfo.getUserId());
 			//
 			this.FileUpload(this.fileInfo);
+
 		}catch(IOException e1){
 			e1.printStackTrace();
 		}
@@ -72,7 +73,7 @@ public class FileUploadRunnable implements Runnable {
 			dis.close();
 			fos.close();
 		}
-		// current list of current depth (from DB) // dbstore�� ���丮���� �ֱ�
+		// current list of current depth (from DB) // only directorypath from dbstore
 		String parentPath = clientPath.substring(0,clientPath.lastIndexOf("/"));
 		// Serializable
 		try {
