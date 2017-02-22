@@ -1,18 +1,13 @@
 package db.store;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import db.domain.DirFile;
 import db.domain.PathMapping;
@@ -108,7 +103,7 @@ public class DBStore{
 	
 	public String FileUpload(String filePath){
 		String serverPath =root+"\\"+userID+"\\";
-		String[] parse = filePath.split("\\");
+		String[] parse = filePath.split("/");
 		//parentIndex search
 		int parentIdx = getParentIndex(filePath);
 	
@@ -117,13 +112,15 @@ public class DBStore{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		//DirFile add
-		DirFile dirFile = new DirFile(dirFileList.size(), parse[parse.length-1], userID, parentIdx,sdf.format(today) , 1, filePath);
+		DirFile dirFile = new DirFile(dirFileList.size()+1, parse[parse.length-1], userID, parentIdx,sdf.format(today) , 1, filePath);
+		dirFileList.add(dirFile);
 		
 		String newFileName =  System.currentTimeMillis()+"_"+dirFile.getFileName();
 
 		serverPath += "\\"+parse[parse.length-1].charAt(0)+"\\"+newFileName;
 		//PathMapping add
 		PathMapping pathMapping = new PathMapping(dirFile.getIndex(), userID, dirFile.getFileName(),newFileName, serverPath);
+		pathMappingList.add(pathMapping);
 		
 		return serverPath;
 	}
@@ -154,16 +151,16 @@ public class DBStore{
 	}
 	
 	public String DirectoryCreate(String filePath){
-		String[] parse = filePath.split("\\");
+		String[] parse = filePath.split("/");
 		int parentIdx = getParentIndex(filePath);
 		//ModifiedDate
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String[] pars =filePath.split("\\");
+		String[] pars =filePath.split("/");
 		String dirName =pars[pars.length-1];
 		
-		DirFile dirFile = new DirFile(dirFileList.size(), dirName, userID, parentIdx, sdf.format(today), 0, filePath);
+		DirFile dirFile = new DirFile(dirFileList.size()+1, dirName, userID, parentIdx, sdf.format(today), 0, filePath);
 		dirFileList.add(dirFile);
 		
 		String serverFileName =  System.currentTimeMillis()+"_"+dirFile.getFileName();
@@ -174,7 +171,7 @@ public class DBStore{
 	}
 	
 	public String DirecotryRemove(String filePath){
-		String[] parse = filePath.split("\\");
+		String[] parse = filePath.split("/");
 		List<DirFile> array = FileSearch(filePath);
 		int parentIdx = getParentIndex(filePath);
 		String serverPath = null;
@@ -214,14 +211,15 @@ public class DBStore{
 		
 	}
 	
-	public int getParentIndex(String filePath){
+	private int getParentIndex(String filePath){
 		int parentIdx = 0;
-		String[] parse = filePath.split("\\");
+		String str ="";
+		String[] parse = filePath.split("/");
 		for(int i=0; i<parse.length-2; i++){
-			filePath += parse[i];
+			str += parse[i];
 		}
 		for(DirFile temp : dirFileList){
-			if(filePath.equals(temp.getClientPath())){
+			if(str.equals(temp.getClientPath())){
 				return parentIdx = temp.getIndex();
 			}
 		}

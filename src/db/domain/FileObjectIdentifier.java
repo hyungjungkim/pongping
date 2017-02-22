@@ -1,7 +1,7 @@
 package db.domain;
 
 public enum FileObjectIdentifier {
-	Folder(0), File(1);
+	Folder(0), File(1), Parent(2);
 	
 	private int flag;
 	
