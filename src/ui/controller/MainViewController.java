@@ -394,8 +394,12 @@ public class MainViewController implements Initializable {
 		/*
 		 * To-do 참고 : dirFile list 맨 처음에 '상위폴더로 가기'를 위한 dirFile 객체를 하나 넣어주어야함
 		 * FileObjectIdentifier parent = FileObjectIdentifier.valueOf("Parent");
-		 * aa.add(new DirFile(0, "...", "1111", 100, null, parent));
+		 * dirFile.add(0, new DirFile(0, "...", "1111", 100, null, parent));
 		 */
+		
+		if(currentPath != userId) {
+			dirFile.add(0, new DirFile(0, "...", "1111", 100, "", 0,"1111"));
+		}
 
 		ObservableList<DirFile> observableList = FXCollections.observableArrayList(dirFile);
 
@@ -473,13 +477,27 @@ public class MainViewController implements Initializable {
 
 					if (col.getId().equals("tableColName")) {
 						String data = (String) col.getCellObservableValue(item).getValue();
-
+						
+						
+						if(item.getFlag() == folder) {
+							System.out.println("하위폴더로 이동");
+							
+							//Forword();
+						}
+						else if(item.getFlag() == parent) {
+							System.out.println("상위폴더로 이동");
+							//Back();
+							
+						}
+						
+						/*
 						if ("...".equals(data)) {
 							System.out.println("상위로 이동");
 						} else {
 							DirFile rowData = row.getItem();
 							System.out.println(rowData + "---" + data);
 						}
+						*/
 
 					}
 
@@ -549,5 +567,13 @@ public class MainViewController implements Initializable {
 	 */
 	public void SearchedFileDownload() {
 
+	}
+	
+	/**
+	 * 로그인 했을때 좌측부분 환영표시
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
+		labelUserName.setText(userId + "님 환영합니다");
 	}
 }

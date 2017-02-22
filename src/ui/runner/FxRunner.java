@@ -12,7 +12,7 @@ public class FxRunner extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		//
 		//1. FXML파일을 이용해서 Parent 객체 생성
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fx/mainfx.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fx/loginfx.fxml"));
 		Parent root = loader.load();
 
 		//2. Scene 생성(parent가 필요함)
