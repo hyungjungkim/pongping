@@ -50,7 +50,7 @@ import javafx.util.Callback;
 import network.client.TCPReactor;
 
 /**
- * MainView ÀÌº¥Æ®ÇÚµé·¯
+ * MainView ï¿½Ìºï¿½Æ®ï¿½Úµé·¯
  * 
  * @author Administrator
  *
@@ -60,7 +60,7 @@ public class MainViewController implements Initializable {
 	private FileClient fileClient;
 
 	/**
-	 * ÁÂÃø ºÎºÐ
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½
 	 */
 	@FXML
 	private Button btnLogOut;
@@ -70,7 +70,7 @@ public class MainViewController implements Initializable {
 	private Label labelUserName;
 
 	/**
-	 * ¿ìÃø »ó´Ü ºÎºÐ
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Îºï¿½
 	 */
 	@FXML
 	private TextField textFieldSearch;
@@ -105,14 +105,14 @@ public class MainViewController implements Initializable {
 	private static final String localPath = "C:\\";
 
 	/**
-	 * ¿ìÃø ÇÏ´Ü ºÎºÐ
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Îºï¿½
 	 */
 
 	@FXML
 	private TableView<DirFile> tableList;
 
 	@FXML
-	private TableColumn<DirFile, FileObjectIdentifier> tableColType;
+	private TableColumn<DirFile, Integer> tableColType;
 	@FXML
 	private TableColumn<DirFile, String> tableColName;
 	@FXML
@@ -125,7 +125,7 @@ public class MainViewController implements Initializable {
 
 		alertDevInfo = new Alert(AlertType.INFORMATION);
 
-		// ÃÊ±â ·Î±×ÀÎ ½Ã ¹Þ´Â ¸®½ºÆ®
+		// ï¿½Ê±ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		try {
 			System.out.println("[Client]");
 			dirFile = fileClient.ShowList(userId, "skcc");
@@ -142,7 +142,7 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * »ý¼ºÀÚ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 
 	public MainViewController() {
@@ -153,13 +153,13 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * ÁÂÃø ºÎºÐ
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½
 	 */
 
-	// ·Î±×¾Æ¿ô ¹öÆ° ´­·¶À»¶§
+	// ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void handleLogOut(ActionEvent e) {
 		//
-		// È­¸é ÀÌµ¿
+		// È­ï¿½ï¿½ ï¿½Ìµï¿½
 	}
 
 	/**
@@ -170,20 +170,20 @@ public class MainViewController implements Initializable {
 	public void btnDevInfo(ActionEvent e) {
 		//
 		// alert
-		alertDevInfo.setContentText("SKCC 4Á¶");
+		alertDevInfo.setContentText("SKCC 4ï¿½ï¿½");
 		alertDevInfo.show();
 	}
 
 	/**
-	 * ¿ìÃø »ó´Ü ºÎºÐ
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Îºï¿½
 	 */
 
 	/**
-	 * ÆÄÀÏ/Æú´õ °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	 * 
 	 * @param e
 	 */
-	// ¿Ï·á
+	// ï¿½Ï·ï¿½
 	public void handleSearch(ActionEvent e) {
 		try {
 			dirFile = fileClient.FileSearch(userId, searchName);
@@ -198,32 +198,32 @@ public class MainViewController implements Initializable {
 	}
 
 	
-	// °³¹ßÀÚ Á¤º¸ ¹öÆ° ´­·¶À»¶§
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void handleShowDevInfo(ActionEvent e) {
 			//
-			alertDevInfo.setContentText("SKCC 4Á¶");
+			alertDevInfo.setContentText("SKCC 4ï¿½ï¿½");
 			alertDevInfo.show();
 
 		}
 	
 	
 	/**
-	 * ÆÄÀÏ/Æú´õ °Ë»ö Ãë¼Ò
+	 * ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 */
-	// ¿Ï·á
+	// ï¿½Ï·ï¿½
 	public void handleSearchCancel(ActionEvent e) {
 		// To-do
 		textFieldSearch.setText("");
 	}
 
 	/**
-	 * Æú´õ »ý¼º
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 */
-	// ¿Ï·á
+	// ï¿½Ï·ï¿½
 	public void handleCreateFolder(ActionEvent e) {
 
 		String entered = "none.";
@@ -238,10 +238,10 @@ public class MainViewController implements Initializable {
 			folderNameWithPath = currentPath + "/" + result.get();
 		}
 
-		// Áßº¹ Ã¼Å© ÈÄ ÀÌ¸§ º¯°æ
+		// ï¿½ßºï¿½ Ã¼Å© ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (IsExist(entered)) {
 
-			System.out.println("ÀÀ Æú´õ Á¸ÀçÇØ");
+			System.out.println("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		} else {
 			try {
 				dirFile = fileClient.DirectoryCreate(userId, folderNameWithPath);
@@ -258,7 +258,7 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * ÆÄÀÏ ¾÷·Îµå
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 	 * 
 	 * @param e
 	 */
@@ -303,11 +303,11 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * ÆÄÀÏ ´Ù¿î·Îµå
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½
 	 * 
 	 * @param e
 	 */
-	// ¿Ï·á
+	// ï¿½Ï·ï¿½
 	public void handleFileDownload(ActionEvent e) {
 
 		/*
@@ -318,18 +318,18 @@ public class MainViewController implements Initializable {
 		} catch (IOException f) {
 			f.printStackTrace();
 		}
-		// ÆÄÀÏ ´Ù¿îÀÌ °¡´ÉÇÏ¸é
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½
 		if (isFileDownload) {
 
-			System.out.println("ÆÄÀÏ ´Ù¿î·Îµå ¿Ï·á");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ ï¿½Ï·ï¿½");
 		} else {
-			System.out.println("ÆÄÀÏ ´Ù¿î·Îµå ½ÇÆÐ");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½");
 		}
 		*/
 	}
 
 	/**
-	 * ÆÄÀÏ/Æú´õ »èÁ¦
+	 * ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 */
@@ -338,7 +338,7 @@ public class MainViewController implements Initializable {
 		//
 		/*
 		try {
-			// ÆÄÀÏ ÀÌ¸§ °¡Á®¿À±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String fileNameWithPath = get() + "/" + currentPath;
 			dirFile = fileClient.DirectoryRemove(userId, fileNameWithPath);
 		} catch (ClassNotFoundException e1) {
@@ -353,7 +353,7 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * ÆÄÀÏ/Æú´õ ÀÌ¸§ º¯°æ
+	 * ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 */
@@ -372,10 +372,10 @@ public class MainViewController implements Initializable {
 			entered = result.get();
 		}
 
-		// Áßº¹ Ã¼Å© ÈÄ ÀÌ¸§ º¯°æ
+		// ï¿½ßºï¿½ Ã¼Å© ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (IsExist(entered)) {
 
-			System.out.println("ÀÀ ÆÄÀÏ Á¸ÀçÇØ");
+			System.out.println("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		} else {
 			String newPath = currentPath + "/" + entered;
 			try {
@@ -393,18 +393,18 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * ³»ºÎ ¸Þ¼Òµå
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	 */
 
 	/**
-	 * UI °»½Å
+	 * UI ï¿½ï¿½ï¿½ï¿½
 	 */
-	// ÇöÀç °æ·Î Æú´õ/ÆÄÀÏ º¸¿©ÁÖ±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 	public void DisplayList() {
 		//
 
 		/*
-		 * To-do Âü°í : dirFile list ¸Ç Ã³À½¿¡ '»óÀ§Æú´õ·Î °¡±â'¸¦ À§ÇÑ dirFile °´Ã¼¸¦ ÇÏ³ª ³Ö¾îÁÖ¾î¾ßÇÔ
+		 * To-do ï¿½ï¿½ï¿½ï¿½ : dirFile list ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ dirFile ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ö¾ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
 		 * FileObjectIdentifier parent = FileObjectIdentifier.valueOf("Parent");
 		 * dirFile.add(0, new DirFile(0, "...", "1111", 100, null, parent));
 		 */
@@ -424,11 +424,11 @@ public class MainViewController implements Initializable {
 
 		tableList.setItems(observableList);
 
-		// ´ÙÁß¼±ÅÃ
+		// ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½
 		// tableList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		// To-do : ¼öÁ¤ÇØ¾ßÇÒ¼öµµ ÀÖÀ½, Æ¯È÷ tableColSize ºÎºÐ
+		// To-do : ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, Æ¯ï¿½ï¿½ tableColSize ï¿½Îºï¿½
 		tableColType.setCellValueFactory(new PropertyValueFactory<>("flag"));
 		tableColName.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 		tableColDate.setCellValueFactory(new PropertyValueFactory<>("modifiedDate"));
@@ -439,20 +439,21 @@ public class MainViewController implements Initializable {
 		tableColDate.setStyle("-fx-alignment: CENTER;");
 		tableColSize.setStyle("-fx-alignment: CENTER;");
 
-		// ÆÄÀÏÀ¯Çü¿¡ ÀÌ¹ÌÁö ³Ö´Â ÄÚµå
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Úµï¿½
 		tableColType.setCellFactory(
-				new Callback<TableColumn<DirFile, FileObjectIdentifier>, TableCell<DirFile, FileObjectIdentifier>>() {
+				new Callback<TableColumn<DirFile, Integer>, TableCell<DirFile, Integer>>() {
 					@Override
-					public TableCell<DirFile, FileObjectIdentifier> call(
-							TableColumn<DirFile, FileObjectIdentifier> param) {
-						TableCell<DirFile, FileObjectIdentifier> cell = new TableCell<DirFile, FileObjectIdentifier>() {
+					public TableCell<DirFile, Integer> call(
+							TableColumn<DirFile, Integer> param) {
+						TableCell<DirFile, Integer> cell = new TableCell<DirFile, Integer>() {
 							ImageView imageview = new ImageView();
 
-							int i = 0;
+							
 
 							@Override
-							public void updateItem(FileObjectIdentifier item, boolean empty) {
+							public void updateItem(Integer item, boolean empty) {
 								if (item != null) {
+									
 									HBox box = new HBox();
 									box.setSpacing(10);
 									VBox vbox = new VBox();
@@ -462,10 +463,10 @@ public class MainViewController implements Initializable {
 									imageview.setFitHeight(50);
 									imageview.setFitWidth(50);
 								
-									if (item.getFlag() == 0)
+									if (item == 0)
 										imageview.setImage(new Image(
 												MainViewController.class.getResource("img").toString() + "/1.jpg"));
-									else if (item.getFlag() == 1)
+									else if (item == 1)
 										imageview.setImage(new Image(
 												MainViewController.class.getResource("img").toString() + "/2.jpg"));
 									else
@@ -482,7 +483,7 @@ public class MainViewController implements Initializable {
 					}
 				});
 
-		// row ´õºíÅ¬¸¯ ÄÚµå
+		// row ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½Úµï¿½
 		tableList.setRowFactory(tv ->
 		{
 			TableRow<DirFile> row = new TableRow<DirFile>();
@@ -502,19 +503,19 @@ public class MainViewController implements Initializable {
 						
 						
 						if(item.getFlag() == 1) {
-							System.out.println("ÇÏÀ§Æú´õ·Î ÀÌµ¿");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½");
 							
 							//Forword();
 						}
 						else if(item.getFlag() == 2) {
-							System.out.println("»óÀ§Æú´õ·Î ÀÌµ¿");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½");
 							//Back();
 							
 						}
 						
 						/*
 						if ("...".equals(data)) {
-							System.out.println("»óÀ§·Î ÀÌµ¿");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½");
 						} else {
 							DirFile rowData = row.getItem();
 							System.out.println(rowData + "---" + data);
@@ -533,21 +534,21 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * Áßº¹ °Ë»ç
+	 * ï¿½ßºï¿½ ï¿½Ë»ï¿½
 	 * 
 	 * @return
 	 */
 	// Todo
 	public boolean IsExist(String name) {
-		// ¸¸¾à Æú´õ È¤Àº ÆÄÀÏ ÀÌ¸§ÀÌ¶û °°À¸¸é showlist ¹ÝÈ¯°ªÀÇ ²ôÆ®¸Ó¸®¶û ºñ±³
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ showlist ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ó¸ï¿½ï¿½ï¿½ ï¿½ï¿½
 
 		return false;
 	}
 
 	/**
-	 * »óÀ§ Æú´õ ÀÌµ¿
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	 */
-	// ¿Ï·á
+	// ï¿½Ï·ï¿½
 	public void Back() {
 
 		int lastIndex = currentPath.lastIndexOf("/");
@@ -566,7 +567,7 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * ÇÏÀ§ Æú´õ ÀÌµ¿
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	 */
 	public void Forward(String currentPath, String pathToGo) {
 
@@ -585,17 +586,17 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * °Ë»ö ÈÄ ´Ù¿î·Îµå
+	 * ï¿½Ë»ï¿½ ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½
 	 */
 	public void SearchedFileDownload() {
 
 	}
 	
 	/**
-	 * ·Î±×ÀÎ ÇßÀ»¶§ ÁÂÃøºÎºÐ È¯¿µÇ¥½Ã
+	 * ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ È¯ï¿½ï¿½Ç¥ï¿½ï¿½
 	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
-		labelUserName.setText(userId + "´Ô È¯¿µÇÕ´Ï´Ù");
+		labelUserName.setText(userId + "ï¿½ï¿½ È¯ï¿½ï¿½ï¿½Õ´Ï´ï¿½");
 	}
 }
