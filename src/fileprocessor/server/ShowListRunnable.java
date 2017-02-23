@@ -10,7 +10,7 @@ import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
-import network.server.ProcessRouterLogic;
+import db.store.DBStoreFactory;
 import network.server.QueueManager;
 
 public class ShowListRunnable implements Runnable {
@@ -21,10 +21,12 @@ public class ShowListRunnable implements Runnable {
 	private DBStore dbStore;
 	private HandleInfo handleInfo;
 	private QueueManager queuemanager;
-
+	private DBStoreFactory factory;
+	
 	public ShowListRunnable() {
 		//
 		queuemanager = QueueManager.getInstance();
+		factory = DBStoreFactory.getInstance();
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class ShowListRunnable implements Runnable {
 				this.handleInfo = queuemanager.getShowlistQueue().take();
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
-				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.dbStore = factory.getDBStoreInstance(fileInfo.getUserId());
 				System.out.println("servershowlist called");
 				out = handleInfo.getOut();
 				this.ShowList(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());

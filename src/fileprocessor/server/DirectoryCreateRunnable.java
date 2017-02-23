@@ -11,6 +11,7 @@ import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import db.store.DBStoreFactory;
 import network.server.QueueManager;
 
 public class DirectoryCreateRunnable implements Runnable {
@@ -21,9 +22,11 @@ public class DirectoryCreateRunnable implements Runnable {
 	private QueueManager queuemanager;
 	private HandleInfo handleInfo;
 	private DBStore dbStore;
-
+	private DBStoreFactory factory;
+	
 	public DirectoryCreateRunnable() {
 		queuemanager = QueueManager.getInstance();
+		factory = DBStoreFactory.getInstance();
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class DirectoryCreateRunnable implements Runnable {
 				this.handleInfo = queuemanager.getMkDirQueue().take();
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
-				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.dbStore = factory.getDBStoreInstance(fileInfo.getUserId());
 				this.out = this.handleInfo.getOut();
 				this.DirectoryCreate(this.fileInfo);
 			} catch (IOException e) {

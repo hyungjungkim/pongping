@@ -11,6 +11,7 @@ import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import db.store.DBStoreFactory;
 import network.server.QueueManager;
 
 public class DirectoryRemoveRunnable implements Runnable {
@@ -21,9 +22,11 @@ public class DirectoryRemoveRunnable implements Runnable {
 	private HandleInfo handleInfo;
 	private QueueManager queuemanager;
 	private DBStore dbStore;
+	private DBStoreFactory factory;
 	
 	public DirectoryRemoveRunnable() {
 		queuemanager = QueueManager.getInstance();
+		factory = DBStoreFactory.getInstance();
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class DirectoryRemoveRunnable implements Runnable {
 				this.handleInfo = queuemanager.getRmvDirQueue().take();
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
-				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.dbStore = factory.getDBStoreInstance(fileInfo.getUserId());
 				this.out = this.handleInfo.getOut();
 				this.DirectoryRemove(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (InterruptedException e) {

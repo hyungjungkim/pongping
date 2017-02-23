@@ -8,6 +8,7 @@ import java.net.Socket;
 import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.store.DBStore;
+import db.store.DBStoreFactory;
 import network.server.QueueManager;
 
 public class FileDownloadRunnable implements Runnable {
@@ -19,10 +20,12 @@ public class FileDownloadRunnable implements Runnable {
 	private DBStore dbStore;
 	private QueueManager queuemanager;
 	private HandleInfo handleInfo;
-
+	private DBStoreFactory factory;
+	
 	public FileDownloadRunnable() {
 		//
 		queuemanager = QueueManager.getInstance();
+		factory = DBStoreFactory.getInstance();
 	}
 
 	@Override
@@ -34,7 +37,7 @@ public class FileDownloadRunnable implements Runnable {
 				this.handleInfo = queuemanager.getDownloadQueue().take();
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
-				this.dbStore = DBStore.getInstance(this.fileInfo.getUserId());
+				this.dbStore = factory.getDBStoreInstance(fileInfo.getUserId());
 				//
 				this.FileDownload(this.fileInfo);
 

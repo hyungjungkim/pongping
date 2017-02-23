@@ -12,6 +12,7 @@ import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import db.store.DBStoreFactory;
 import network.server.QueueManager;
 
 public class FileUploadRunnable implements Runnable {
@@ -24,9 +25,11 @@ public class FileUploadRunnable implements Runnable {
 	private DBStore dbStore;
 	private HandleInfo handleinfo;
 	private QueueManager queuemanager;
-
+	private DBStoreFactory factory;
+	
 	public FileUploadRunnable() {
 		queuemanager = QueueManager.getInstance();
+		factory = DBStoreFactory.getInstance();
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class FileUploadRunnable implements Runnable {
 				this.handleinfo = queuemanager.getUploadQueue().take();
 				this.fileInfo = this.handleinfo.getFileInfo();
 				this.sock = this.handleinfo.getSock();
-				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.dbStore = factory.getDBStoreInstance(fileInfo.getUserId());
 				this.out = this.handleinfo.getOut();
 				//
 				this.FileUpload(this.fileInfo);

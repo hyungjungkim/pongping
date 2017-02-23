@@ -10,6 +10,7 @@ import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import db.store.DBStoreFactory;
 import network.server.QueueManager;
 
 public class FileSearchRunnable implements Runnable {
@@ -20,10 +21,12 @@ public class FileSearchRunnable implements Runnable {
 	private DBStore dbStore;
 	private HandleInfo handleInfo;
 	private QueueManager queuemanager;
-
+	private DBStoreFactory factory;
+	
 	public FileSearchRunnable() {
 		//
 		queuemanager = QueueManager.getInstance();
+		factory = DBStoreFactory.getInstance();
 	}
 
 	@Override
@@ -35,7 +38,7 @@ public class FileSearchRunnable implements Runnable {
 				this.handleInfo = queuemanager.getSearchQueue().take();
 				this.fileInfo = this.handleInfo.getFileInfo();
 				this.sock = this.handleInfo.getSock();
-				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.dbStore = factory.getDBStoreInstance(fileInfo.getUserId());
 				this.out = this.handleInfo.getOut();
 				this.FileSearch(this.fileInfo.getUserId(), this.fileInfo.getCurrentPath());
 			} catch (IOException e) {

@@ -11,6 +11,7 @@ import db.domain.FileInfo;
 import db.domain.HandleInfo;
 import db.domain.ListInfor;
 import db.store.DBStore;
+import db.store.DBStoreFactory;
 import network.server.QueueManager;
 
 public class ChangeNameRunnable implements Runnable {
@@ -21,10 +22,12 @@ public class ChangeNameRunnable implements Runnable {
 	private HandleInfo handleinfo;
 	private QueueManager queuemanager;
 	private DBStore dbStore;
-
+	private DBStoreFactory factory;
+	
 	public ChangeNameRunnable() {
 		// Constructor
 		queuemanager = QueueManager.getInstance();
+		factory = DBStoreFactory.getInstance();
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class ChangeNameRunnable implements Runnable {
 				this.handleinfo = queuemanager.getCngDirNameQueue().take();
 				this.sock = this.handleinfo.getSock();
 				this.fileInfo = this.handleinfo.getFileInfo();
-				this.dbStore = DBStore.getInstance(fileInfo.getUserId());
+				this.dbStore = factory.getDBStoreInstance(fileInfo.getUserId());
 				this.out = this.handleinfo.getOut();
 				//
 				this.ChangeName(fileInfo.getUserId(), this.fileInfo.getCurrentPath(), this.fileInfo.getNewPath());

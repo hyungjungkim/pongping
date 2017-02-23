@@ -69,7 +69,6 @@ public class ProcessRouterLogic extends Thread implements ProcessRouter {
 				RequestInfo requestInfo = (RequestInfo)in.readObject();
 				System.out.println(requestInfo.getUserId());
 				this.depacketizer(requestInfo);
-				DBStore dbstore = DBStore.getInstance(this.userId);
 				handleInfo = new HandleInfo(sock, fileInfo, in, out);
 				System.out.println(handleInfo.getFileInfo().getCurrentPath());
 			} catch (Exception e) {
